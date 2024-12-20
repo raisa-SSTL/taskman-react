@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { InputAdornment } from "@mui/material";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 import {
   Card,
@@ -61,7 +65,7 @@ const AddTaskForm = () => {
 
   const [value, setValue] = React.useState("");
 
-  const handleChange2 = (event) => {
+  const handleRadioChange = (event) => {
     setValue(event.target.value);
   };
 
@@ -81,6 +85,9 @@ const AddTaskForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
+  const [deadline, setDeadline] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -89,6 +96,11 @@ const AddTaskForm = () => {
     const taskData = {
       title,
       description,
+      priority,
+      deadline: deadline ? deadline.toISOString().split("T")[0] : null,
+      start_date: startDate ? startDate.toISOString().split("T")[0] : null,
+      end_date: endDate ? endDate.toISOString().split("T")[0] : null,
+      status: value,
     };
 
     // Make an API call using axios with .then() and .catch()
@@ -99,6 +111,11 @@ const AddTaskForm = () => {
         setMessage("Task created successfully!");
         setTitle(""); // Reset title input
         setDescription(""); // Reset description input
+        setPriority("");
+        setDeadline(null);
+        setStartDate(null);
+        setEndDate(null);
+        setValue("");
       })
       .catch((error) => {
         console.error("Error creating task:", error);
@@ -202,23 +219,168 @@ const AddTaskForm = () => {
               }}
             /> */}
             {/* <TextField
-              fullWidth
-              id="standard-select-number"
-              variant="outlined"
-              select
-              label="Priority"
-              value={priority}
-              onChange={handleChange4}
+                  fullWidth
+                  id="standard-select-number"
+                  variant="outlined"
+                  select
+                  label="Select Priority"
+                  value={priority}
+                  onChange={handleChange4}
+                  sx={{
+                    mb: 2, // Ensures no extra margin within the grid item
+                  }}
+                >
+                  {priorities.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+            </TextField> */}
+            <Grid
+              container
+              spacing={2}
               sx={{
                 mb: 2,
               }}
             >
-                {priorities.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField> */}
+              {/* Priority Field */}
+              <Grid item lg={6} md={6} sm={12}>
+                <TextField
+                    fullWidth
+                    id="standard-select-number"
+                    variant="outlined"
+                    select
+                    label="Select Priority"
+                    value={priority}
+                    onChange={handleChange4}
+                    sx={{
+                      mb: 2, // Ensures no extra margin within the grid item
+                    }}
+                  >
+                    {priorities.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                </TextField>
+              </Grid>
+
+              {/* Deadline Field */}
+              <Grid item lg={2} md={6} sm={12}>
+                <ReactDatePicker
+                  selected={deadline}
+                  onChange={(date) => setDeadline(date)}
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText="Select a deadline"
+                  customInput={
+                    // <TextField
+                    //   fullWidth
+                    //   variant="outlined"
+                    //   label="Select Deadline"
+                    // />
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Select Deadline"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <CalendarTodayIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  }
+                />
+              </Grid>
+
+              {/* Start Date Field */}
+              <Grid item lg={2} md={6} sm={12}>
+                <ReactDatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText="Select a deadline"
+                  customInput={
+                    <TextField
+                      // fullWidth
+                      // variant="outlined"
+                      // label="Select Start Date"
+                      fullWidth
+                      variant="outlined"
+                      label="Select Start Date"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <CalendarTodayIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  }
+                />
+              </Grid>
+
+              {/* End Date Field */}
+              <Grid item lg={2} md={6} sm={12} fullWidth>
+                <ReactDatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText="Select a deadline"
+                  customInput={
+                    <TextField
+                      // fullWidth
+                      // variant="outlined"
+                      // label="Select End Date"
+                      variant="outlined"
+                      label="Select End Date"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <CalendarTodayIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  }
+                />
+              </Grid>
+            </Grid>
+
+            <div>
+              <Typography
+                sx={{
+                  fontSize: "18px",
+                  fontWeight: "400",
+                }}
+              >
+                Status
+              </Typography>
+            </div>
+            <Grid item lg={4} md={6} sm={12} sx={{mb: 2}}>
+              <FormControl component="fieldset">
+                <RadioGroup
+                    row
+                    aria-label="status"
+                    name="status"
+                    value={value}
+                    onChange={handleRadioChange}
+                >
+                  <FormControlLabel
+                      value="Complete"
+                      control={<Radio />}
+                      label="Complete"
+                  />
+                  <FormControlLabel
+                      value="Incomplete"
+                      control={<Radio />}
+                      label="Incomplete"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+
             {/* <Grid
               container
               spacing={0}
