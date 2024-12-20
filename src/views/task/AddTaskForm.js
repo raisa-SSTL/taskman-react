@@ -281,7 +281,7 @@ const AddTaskForm = () => {
                     <TextField
                       fullWidth
                       variant="outlined"
-                      label="Select Deadline"
+                      label="Deadline"
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -308,7 +308,7 @@ const AddTaskForm = () => {
                       // label="Select Start Date"
                       fullWidth
                       variant="outlined"
-                      label="Select Start Date"
+                      label="Start Date"
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -334,7 +334,7 @@ const AddTaskForm = () => {
                       // variant="outlined"
                       // label="Select End Date"
                       variant="outlined"
-                      label="Select End Date"
+                      label="End Date"
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -368,14 +368,19 @@ const AddTaskForm = () => {
                     onChange={handleRadioChange}
                 >
                   <FormControlLabel
+                      value="Pending"
+                      control={<Radio />}
+                      label="Pending"
+                  />
+                  <FormControlLabel
+                      value="In Progress"
+                      control={<Radio />}
+                      label="In Progress"
+                  />
+                  <FormControlLabel
                       value="Complete"
                       control={<Radio />}
                       label="Complete"
-                  />
-                  <FormControlLabel
-                      value="Incomplete"
-                      control={<Radio />}
-                      label="Incomplete"
                   />
                 </RadioGroup>
               </FormControl>
