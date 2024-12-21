@@ -9,7 +9,8 @@ import {
   TableHead,
   TableRow,
   Chip,
-  CircularProgress
+  CircularProgress,
+  Button
 } from "@mui/material";
 
 const products = [
@@ -108,7 +109,7 @@ const TaskListTable = () => {
                                 End Date
                             </Typography>
                         </TableCell> */}
-                        <TableCell>
+                        <TableCell align="right">
                             <Typography color="textSecondary" variant="h6">
                                 Actions
                             </Typography>
@@ -207,15 +208,42 @@ const TaskListTable = () => {
                                     label={task.status}
                                 ></Chip>
                             </TableCell>
-                            <TableCell align="left">
-                              
+                            <TableCell align="right">
+                                <Button
+                                          variant="outlined"
+                                          color="secondary"
+                                          sx={{
+                                            mr: 1,
+                                            mb: {
+                                              xs: 1,
+                                              sm: 0,
+                                              lg: 0,
+                                            },
+                                          }}
+                                        >
+                                          Update
+                                </Button>
+                                <Button
+                                          variant="outlined"
+                                          color="error"
+                                          sx={{
+                                            mr: 1,
+                                            mb: {
+                                              xs: 1,
+                                              sm: 0,
+                                              lg: 0,
+                                            },
+                                          }}
+                                        >
+                                          Delete
+                                </Button>
                             </TableCell>
                             {/* <TableCell align="left">
                               <Typography variant="h6">${product.budget}k</Typography>
                             </TableCell>
                             <TableCell align="left">
                               <Typography variant="h6">${product.budget}k</Typography>
-                            </TableCell> */}
+                            </TableCell> */}                          
                           </TableRow>
                 ))}
             </TableBody>
