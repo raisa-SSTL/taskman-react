@@ -59,9 +59,30 @@ const Menuitems = [
 
   {
     title: "Add Task",
-    icon: DescriptionOutlinedIcon,
+    icon: AddToPhotosOutlinedIcon,
     href: "/task/add-task",
   },
+  {
+    title: "Task List",
+    icon: DescriptionOutlinedIcon,
+    href: "/task/task-list",
+  },
+  // {
+  //   title: "Tasks",
+  //   icon: AddToPhotosOutlinedIcon,
+  //   children: [
+  //     {
+  //       title: "Add Task",
+  //       icon: AddToPhotosOutlinedIcon,
+  //       href: "/task/add-task",
+  //     },
+  //     {
+  //       title: "Task List",
+  //       icon: DescriptionOutlinedIcon,
+  //       href: "/task/task-list",
+  //     },
+  //   ],
+  // },
 ];
 
 export default Menuitems;
