@@ -11,7 +11,8 @@ import {
   TableRow,
   Chip,
   CircularProgress,
-  Button
+  Button,
+  Pagination
 } from "@mui/material";
 
 const products = [
@@ -31,40 +32,29 @@ const TaskListTable = () => {
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         // Fetch data from the API
         axios
-          .get("http://localhost:8000/api/task-list") // Replace with your API endpoint
+          .get(`http://localhost:8000/api/task-list?page=${page}`) // Replace with your API endpoint
           .then((response) => {
-            setTasks(response.data.data); // Assuming the tasks are in the `data` field
+            const { data } = response.data;
+            setTasks(data.data); 
+            setTotalPages(data.last_page);
             setLoading(false);
+            console.log("data", data);
           })
           .catch((error) => {
             console.error("Error fetching tasks:", error);
             setLoading(false);
           });
-    }, []); 
-    
-    // useEffect(() => {
-    //   getTaskList();
-    // }, []);
+    }, [page]); 
 
-    // const getTaskList = () => {
-
-    //   setLoading(true);
-
-    //   axios
-    //     .get("http://localhost:8000/api/task-list")
-    //     .then((response) => {
-    //       setTasks(response.data.data);
-    //       setLoading(false);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching tasks:", error);
-    //       setLoading(false);
-    //     });
-    // };
+    const handlePageChange = (event, value) => {
+      setPage(value);
+    };
 
     if (loading) {
         return (
@@ -82,6 +72,7 @@ const TaskListTable = () => {
     }
 
     return (
+      <>
         <Table
           aria-label="simple table"
           sx={{
@@ -286,8 +277,16 @@ const TaskListTable = () => {
                 ))}
             </TableBody>
         </Table>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Box>
+      </>
     );
-
 };
 
 export default TaskListTable;
