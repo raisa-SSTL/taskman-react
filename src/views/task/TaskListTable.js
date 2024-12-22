@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   Typography,
   Box,
@@ -12,7 +15,12 @@ import {
   Chip,
   CircularProgress,
   Button,
-  Pagination
+  Pagination,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 
 const products = [
@@ -34,6 +42,8 @@ const TaskListTable = () => {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [open, setOpen] = useState(false);
+    const [selectedTaskId, setSelectedTaskId] = useState(null);
 
     useEffect(() => {
         // Fetch data from the API
@@ -70,6 +80,35 @@ const TaskListTable = () => {
           </Box>
         );
     }
+
+    const handleOpen = (taskId) => {
+      setSelectedTaskId(taskId);
+      setOpen(true);
+    };
+
+    const handleClose = () => {
+      setOpen(false);
+      setSelectedTaskId(null);
+    };
+
+    const handleConfirmDelete = () => {
+      if (!selectedTaskId) return;
+    
+      axios.post(`http://localhost:8000/api/delete-task/${selectedTaskId}`)
+        .then((response) => {
+          if (response.status === 200) {
+            toast.success("Task deleted successfully!");
+            window.location.reload(); // Refresh the page
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting task:", error);
+          toast.error("Failed to delete the task. Please try again.");
+        })
+        .finally(() => {
+          handleClose(); // Close the dialog
+        });
+    };
 
     return (
       <>
@@ -263,6 +302,8 @@ const TaskListTable = () => {
                                               lg: 0,
                                             },
                                           }}
+                                          // onClick={() => handleDelete(task.id)}
+                                          onClick={() => handleOpen(task.id)}
                                         >
                                           Delete
                                 </Button>
@@ -285,6 +326,30 @@ const TaskListTable = () => {
             color="primary"
           />
         </Box>
+        {/* Delete Confirmation Dialog */}
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="delete-dialog-title"
+          aria-describedby="delete-dialog-description"
+        >
+          <DialogTitle id="delete-dialog-title">Confirm Deletion</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="delete-dialog-description">
+              Are you sure you want to delete this task? This action cannot be undone.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleConfirmDelete} color="error">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {/* Toast Container */}
+        <ToastContainer position="bottom-center" autoClose={3000} />
       </>
     );
 };
