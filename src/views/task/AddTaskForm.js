@@ -4,6 +4,7 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { InputAdornment } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { useNavigate } from "react-router-dom";
 
 import {
   Card,
@@ -53,6 +54,9 @@ const priorities = [
 ];
 
 const AddTaskForm = () => {
+
+  const navigate = useNavigate();
+
   const [state, setState] = React.useState({
     checkedA: false,
     checkedB: false,
@@ -123,6 +127,10 @@ const AddTaskForm = () => {
       });
   };
 
+  const handleButtonClick = () => {
+    navigate("/task/task-list");
+};
+
   return (
     <div>
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -141,7 +149,14 @@ const AddTaskForm = () => {
           display="flex"
           alignItems="center"
         >
-          <Box flexGrow={1}>
+          <Box flexGrow={1} 
+                sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center", // Ensure vertical alignment
+                mb: 2, // Add some margin below
+              }}
+          >
             <Typography
               sx={{
                 fontSize: "18px",
@@ -150,6 +165,21 @@ const AddTaskForm = () => {
             >
               Create New Task
             </Typography>
+            <Button
+                                                      variant="outlined"
+                                                      color="secondary"
+                                                      sx={{
+                                                        mr: 1,
+                                                        mb: {
+                                                          xs: 1,
+                                                          sm: 0,
+                                                          lg: 0,
+                                                        },
+                                                      }}
+                                                      onClick={handleButtonClick}
+                                                    >
+                                                      Back
+              </Button>
           </Box>
         </Box>
         <Divider />
