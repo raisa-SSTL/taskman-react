@@ -57,21 +57,21 @@ const Menuitems = [
 
   //----------------------
 
+  // {
+  //   title: "Add Task",
+  //   icon: AddToPhotosOutlinedIcon,
+  //   href: "/task/add-task",
+  // },
   {
-    title: "Add Task",
-    icon: AddToPhotosOutlinedIcon,
-    href: "/task/add-task",
-  },
-  {
-    title: "Task List",
+    title: "Task",
     icon: DescriptionOutlinedIcon,
     href: "/task/task-list",
   },
-  {
-    title: "Show Task",
-    icon: DescriptionOutlinedIcon,
-    href: "/task/show-task/:id",
-  },
+  // {
+  //   title: "Show Task",
+  //   icon: DescriptionOutlinedIcon,
+  //   href: "/task/show-task/:id",
+  // },
   // {
   //   title: "Tasks",
   //   icon: AddToPhotosOutlinedIcon,

@@ -220,10 +220,10 @@ const TaskListTable = () => {
                                     pr: "4px",
                                     backgroundColor:
                                         task.status === "Complete"
-                                        ? "primary.main" // Red for "High"
-                                        : task.status === "Incomplete"
-                                        ? "success.main" // Green for "Low"
-                                        : "", // Default color
+                                        ? "primary.main" // Blue 
+                                        : task.status === "In Progress"
+                                        ? "success.main" // Green 
+                                        : "error.main", // Red for Pending
                                     color: "#fff",
                                     }}
                                     size="small"
