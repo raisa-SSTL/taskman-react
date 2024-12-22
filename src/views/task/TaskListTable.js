@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Typography,
   Box,
@@ -27,6 +28,7 @@ const products = [
 
 const TaskListTable = () => {
 
+    const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -42,7 +44,27 @@ const TaskListTable = () => {
             console.error("Error fetching tasks:", error);
             setLoading(false);
           });
-    }, []);  
+    }, []); 
+    
+    // useEffect(() => {
+    //   getTaskList();
+    // }, []);
+
+    // const getTaskList = () => {
+
+    //   setLoading(true);
+
+    //   axios
+    //     .get("http://localhost:8000/api/task-list")
+    //     .then((response) => {
+    //       setTasks(response.data.data);
+    //       setLoading(false);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error fetching tasks:", error);
+    //       setLoading(false);
+    //     });
+    // };
 
     if (loading) {
         return (
@@ -209,6 +231,21 @@ const TaskListTable = () => {
                                 ></Chip>
                             </TableCell>
                             <TableCell align="right">
+                              <Button
+                                          variant="outlined"
+                                          color="primary"
+                                          sx={{
+                                            mr: 1,
+                                            mb: {
+                                              xs: 1,
+                                              sm: 0,
+                                              lg: 0,
+                                            },
+                                          }}
+                                          onClick={() => navigate(`/task/show-task/${task.id}`)}
+                                        >
+                                          View
+                                </Button>
                                 <Button
                                           variant="outlined"
                                           color="secondary"
