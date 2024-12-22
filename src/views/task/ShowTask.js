@@ -1,15 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-import { Card, CardContent, Box, Typography, Button } from "@mui/material";
+import { Card, CardContent, Box, Typography, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ShowTaskPage from './ShowTaskPage';
 
 const ShowTask = () => {
 
+    const { id } = useParams();
+    const [task, setTask] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Fetch task details using the ID
+        axios
+          .get(`http://localhost:8000/api/show-task-details/${id}`)
+          .then((response) => {
+            setTask(response.data.data);
+            setLoading(false);
+          })
+          .catch((err) => {
+            setError(err.message);
+            setLoading(false);
+          });
+      }, [id]);
+
+      if (loading) {
+              return (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    minHeight: "100vh",
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              );
+          }
     
-      const handleButtonClick = () => {
+    
+    const handleButtonClick = () => {
         navigate("/task/task-list");
-      };
+    };
 
     return (
         <Box>
@@ -23,7 +61,7 @@ const ShowTask = () => {
                 mb: 2, // Add some margin below
               }}
             >
-              <Typography variant="h3">Task Title</Typography>
+              <Typography variant="h3">Task Details</Typography>
                 <Button
                                           variant="outlined"
                                           color="secondary"
@@ -48,7 +86,9 @@ const ShowTask = () => {
                   },
                 }}
               >
-                {/* <ShowTaskPage /> */}
+                <ShowTaskPage 
+                    taskData={task}
+                />
               </Box>
             </CardContent>
           </Card>
