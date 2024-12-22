@@ -35,7 +35,7 @@ const products = [
       },
 ];
 
-const TaskListTable = () => {
+const TaskListTable = ({ searchQuery }) => {
 
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
@@ -45,22 +45,53 @@ const TaskListTable = () => {
     const [open, setOpen] = useState(false);
     const [selectedTaskId, setSelectedTaskId] = useState(null);
 
+    // useEffect(() => {
+    //     // Fetch data from the API
+    //     axios
+    //       .get(`http://localhost:8000/api/task-list?page=${page}`) // Replace with your API endpoint
+    //       .then((response) => {
+    //         const { data } = response.data;
+    //         setTasks(data.data); 
+    //         setTotalPages(data.last_page);
+    //         setLoading(false);
+    //         console.log("data", data);
+    //       })
+    //       .catch((error) => {
+    //         console.error("Error fetching tasks:", error);
+    //         setLoading(false);
+    //       });
+    // }, [page]); 
+
     useEffect(() => {
-        // Fetch data from the API
-        axios
-          .get(`http://localhost:8000/api/task-list?page=${page}`) // Replace with your API endpoint
+      const fetchTasks = () => {
+        setLoading(true);
+        const url = searchQuery
+          ? `http://localhost:8000/api/search-task` // Search API endpoint
+          : `http://localhost:8000/api/task-list?page=${page}`; // Default task list
+  
+        const payload = searchQuery ? { title: searchQuery } : null;
+  
+        const request = searchQuery
+          ? axios.post(url, payload)
+          : axios.get(url);
+  
+        request
           .then((response) => {
-            const { data } = response.data;
-            setTasks(data.data); 
-            setTotalPages(data.last_page);
-            setLoading(false);
-            console.log("data", data);
+            const data = response.data.data || [];
+            setTasks(data.data || data); // Adjust for pagination or flat list
+            setTotalPages(data.last_page || 1);
           })
           .catch((error) => {
             console.error("Error fetching tasks:", error);
+          })
+          .finally(() => {
             setLoading(false);
           });
-    }, [page]); 
+      };
+  
+      fetchTasks();
+    }, [page, searchQuery]);
+  
 
     const handlePageChange = (event, value) => {
       setPage(value);
@@ -218,7 +249,6 @@ const TaskListTable = () => {
                                 sx={{
                                   pl: "4px",
                                   pr: "4px",
-                                //   backgroundColor: product.pbg,
                                 backgroundColor:
                                     task.priority === "High"
                                     ? "error.main" // Red for "High"
@@ -318,14 +348,14 @@ const TaskListTable = () => {
                 ))}
             </TableBody>
         </Table>
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+        {/* <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
           <Pagination
             count={totalPages}
             page={page}
             onChange={handlePageChange}
             color="primary"
           />
-        </Box>
+        </Box> */}
         {/* Delete Confirmation Dialog */}
         <Dialog
           open={open}
@@ -350,6 +380,16 @@ const TaskListTable = () => {
         </Dialog>
         {/* Toast Container */}
         <ToastContainer position="bottom-center" autoClose={3000} />
+        {!searchQuery && (
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              color="primary"
+            />
+          </Box>
+      )}
       </>
     );
 };
