@@ -257,6 +257,7 @@ const TaskListTable = () => {
                                               lg: 0,
                                             },
                                           }}
+                                          onClick={() => navigate(`/task/update-task/${task.id}`)}
                                         >
                                           Update
                                 </Button>

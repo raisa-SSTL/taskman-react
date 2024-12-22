@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import AddTask from "../views/task/AddTask.js";
 import TaskList from "../views/task/TaskList.js";
 import ShowTask  from "../views/task/ShowTask.js";
+import UpdateTask from "../views/task/UpdateTask.js"
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
@@ -46,9 +47,12 @@ const ThemeRoutes = [
 
       //--------------------------
 
+      // T A S K
+
       { path: "/task/add-task", element: <AddTask /> },
       { path: "/task/task-list", element: <TaskList /> },
       { path: "/task/show-task/:id", element: <ShowTask /> },
+      { path: "/task/update-task/:id", element: <UpdateTask /> },
     ],
   },
 ];
