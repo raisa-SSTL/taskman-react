@@ -35,7 +35,7 @@ const products = [
       },
 ];
 
-const TaskListTable = ({ searchQuery }) => {
+const TaskListTable = ({ searchQuery, filters }) => {
 
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
@@ -44,6 +44,8 @@ const TaskListTable = ({ searchQuery }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [open, setOpen] = useState(false);
     const [selectedTaskId, setSelectedTaskId] = useState(null);
+
+    // USING INDEX API
 
     // useEffect(() => {
     //     // Fetch data from the API
@@ -62,24 +64,104 @@ const TaskListTable = ({ searchQuery }) => {
     //       });
     // }, [page]); 
 
+    // USING INDEX + SEARCH API
+
+    // useEffect(() => {
+    //   const fetchTasks = () => {
+    //     setLoading(true);
+    //     const url = searchQuery
+    //       ? `http://localhost:8000/api/search-task` // Search API endpoint
+    //       : `http://localhost:8000/api/task-list?page=${page}`; // Default task list
+  
+    //     const payload = searchQuery ? { title: searchQuery } : null;
+  
+    //     const request = searchQuery
+    //       ? axios.post(url, payload)
+    //       : axios.get(url);
+  
+    //     request
+    //       .then((response) => {
+    //         const data = response.data.data || [];
+    //         setTasks(data.data || data); // Adjust for pagination or flat list
+    //         setTotalPages(data.last_page || 1);
+    //       })
+    //       .catch((error) => {
+    //         console.error("Error fetching tasks:", error);
+    //       })
+    //       .finally(() => {
+    //         setLoading(false);
+    //       });
+    //   };
+  
+    //   fetchTasks();
+    // }, [page, searchQuery]);
+
+    // USING FILTER API
+
+    // useEffect(() => {
+    //   const fetchTasks = () => {
+    //     setLoading(true);
+    //     const url = `http://localhost:8000/api/find-filtered-tasks`;
+  
+    //     // Combine searchQuery and filters into a single payload
+    //     const payload = {
+    //       title: searchQuery || null,
+    //       priority: filters.priority.length > 0 ? filters.priority : null,
+    //       status: filters.status.length > 0 ? filters.status : null,
+    //       page,
+    //     };
+  
+    //     axios
+    //       .post(url, payload)
+    //       .then((response) => {
+    //         const data = response.data.data || [];
+    //         setTasks(data.data || data); // Handle paginated or flat data
+    //         setTotalPages(data.last_page || 1);
+    //       })
+    //       .catch((error) => {
+    //         console.error("Error fetching filtered tasks:", error);
+    //       })
+    //       .finally(() => {
+    //         setLoading(false);
+    //       });
+    //   };
+  
+    //   fetchTasks();
+    // }, [page, searchQuery, filters]);
+
+    // USING FILTER + SEARCH API
+
     useEffect(() => {
       const fetchTasks = () => {
         setLoading(true);
-        const url = searchQuery
-          ? `http://localhost:8000/api/search-task` // Search API endpoint
-          : `http://localhost:8000/api/task-list?page=${page}`; // Default task list
   
-        const payload = searchQuery ? { title: searchQuery } : null;
+        // Determine which API to use based on `searchQuery`
+        const isSearchQuery = searchQuery && searchQuery.trim() !== "";
   
-        const request = searchQuery
-          ? axios.post(url, payload)
-          : axios.get(url);
+        // Configure the API URL and payload
+        const url = isSearchQuery
+          ? `http://localhost:8000/api/search-task`
+          : `http://localhost:8000/api/find-filtered-tasks`;
   
-        request
+        const payload = isSearchQuery
+          ? { title: searchQuery }
+          : {
+              priority: filters.priority.length > 0 ? filters.priority : null,
+              status: filters.status.length > 0 ? filters.status : null,
+              page,
+            };
+  
+        axios
+          .post(url, payload)
           .then((response) => {
             const data = response.data.data || [];
-            setTasks(data.data || data); // Adjust for pagination or flat list
-            setTotalPages(data.last_page || 1);
+            if (isSearchQuery) {
+              setTasks(data); // Search results are not paginated
+              setTotalPages(1); // Reset pagination since search doesn't support it
+            } else {
+              setTasks(data.data || data); // Handle paginated results
+              setTotalPages(data.last_page || 1);
+            }
           })
           .catch((error) => {
             console.error("Error fetching tasks:", error);
@@ -90,9 +172,8 @@ const TaskListTable = ({ searchQuery }) => {
       };
   
       fetchTasks();
-    }, [page, searchQuery]);
+    }, [page, searchQuery, filters]);
   
-
     const handlePageChange = (event, value) => {
       setPage(value);
     };
