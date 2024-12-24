@@ -44,6 +44,7 @@ const TaskListTable = ({ searchQuery, filters }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [open, setOpen] = useState(false);
     const [selectedTaskId, setSelectedTaskId] = useState(null);
+    const perPage = 5;
 
     // USING INDEX API
 
@@ -156,10 +157,10 @@ const TaskListTable = ({ searchQuery, filters }) => {
           .then((response) => {
             const data = response.data.data || [];
             if (isSearchQuery) {
-              setTasks(data); // Search results are not paginated
-              setTotalPages(1); // Reset pagination since search doesn't support it
+              setTasks(data); 
+              setTotalPages(1); 
             } else {
-              setTasks(data.data || data); // Handle paginated results
+              setTasks(data.data || data); 
               setTotalPages(data.last_page || 1);
             }
           })
@@ -240,6 +241,11 @@ const TaskListTable = ({ searchQuery, filters }) => {
                         </TableCell> */}
                         <TableCell>
                             <Typography color="textSecondary" variant="h6">
+                                SL
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography color="textSecondary" variant="h6">
                                 Title
                             </Typography>
                         </TableCell>
@@ -281,7 +287,7 @@ const TaskListTable = ({ searchQuery, filters }) => {
                     </TableRow>
             </TableHead>
             <TableBody>
-                {tasks.map((task) => (
+                {tasks.map((task, index) => (
                           <TableRow key={task.id}>
                             {/* <TableCell>
                               <Typography
@@ -293,6 +299,11 @@ const TaskListTable = ({ searchQuery, filters }) => {
                                 {task.id}
                               </Typography>
                             </TableCell> */}
+                            <TableCell>
+                              <Typography variant="h6">
+                                {index + 1 + (page - 1) * perPage} {/* Add 1 to the zero-based index */}
+                              </Typography>
+                            </TableCell>
                             <TableCell>
                               <Box
                                 sx={{
