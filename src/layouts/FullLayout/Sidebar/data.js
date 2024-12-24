@@ -67,6 +67,11 @@ const Menuitems = [
     icon: DescriptionOutlinedIcon,
     href: "/task/task-list",
   },
+  {
+    title: "Dashboard",
+    icon: DashboardOutlinedIcon,
+    href: "/dashboard",
+  },
   // {
   //   title: "Show Task",
   //   icon: DescriptionOutlinedIcon,
