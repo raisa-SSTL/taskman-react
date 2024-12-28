@@ -5,6 +5,7 @@ import TaskList from "../views/task/TaskList.js";
 import ShowTask  from "../views/task/ShowTask.js";
 import UpdateTask from "../views/task/UpdateTask.js";
 import Dashboard from "../views/dashboard/Dashboard.js";
+import Login from "../views/login/Login.js";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
@@ -31,6 +32,8 @@ const FormLayouts = lazy(() => import("../views/FormLayouts/FormLayouts.js"));
 /*****Routes******/
 
 const ThemeRoutes = [
+  // L O G I N
+  { path: "/login", element: <Login/> },
   {
     path: "/",
     element: <FullLayout />,
