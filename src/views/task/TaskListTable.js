@@ -5,22 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {
-  Typography,
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Chip,
-  CircularProgress,
-  Button,
-  Pagination,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
+  Typography, Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, CircularProgress, Button, Pagination, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
 } from "@mui/material";
 
 const products = [
@@ -152,8 +137,15 @@ const TaskListTable = ({ searchQuery, filters }) => {
               page,
             };
   
+        const token = localStorage.getItem('authToken');
+
         axios
-          .post(url, payload)
+          .post(url, payload, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          })
           .then((response) => {
             const data = response.data.data || [];
             if (isSearchQuery) {
@@ -234,11 +226,6 @@ const TaskListTable = ({ searchQuery, filters }) => {
         >
             <TableHead>
                     <TableRow>
-                        {/* <TableCell>
-                            <Typography color="textSecondary" variant="h6">
-                                Id
-                            </Typography>
-                        </TableCell> */}
                         <TableCell>
                             <Typography color="textSecondary" variant="h6">
                                 SL
@@ -249,11 +236,6 @@ const TaskListTable = ({ searchQuery, filters }) => {
                                 Title
                             </Typography>
                         </TableCell>
-                        {/* <TableCell>
-                            <Typography color="textSecondary" variant="h6">
-                                Description
-                            </Typography>
-                        </TableCell> */}
                         <TableCell>
                             <Typography color="textSecondary" variant="h6">
                                 Priority
@@ -269,16 +251,6 @@ const TaskListTable = ({ searchQuery, filters }) => {
                                 Status
                             </Typography>
                         </TableCell>
-                        {/* <TableCell>
-                            <Typography color="textSecondary" variant="h6">
-                                Start Date
-                            </Typography>
-                        </TableCell> */}
-                        {/* <TableCell>
-                            <Typography color="textSecondary" variant="h6">
-                                End Date
-                            </Typography>
-                        </TableCell> */}
                         <TableCell align="right">
                             <Typography color="textSecondary" variant="h6">
                                 Actions
@@ -289,16 +261,6 @@ const TaskListTable = ({ searchQuery, filters }) => {
             <TableBody>
                 {tasks.map((task, index) => (
                           <TableRow key={task.id}>
-                            {/* <TableCell>
-                              <Typography
-                                sx={{
-                                  fontSize: "15px",
-                                  fontWeight: "500",
-                                }}
-                              >
-                                {task.id}
-                              </Typography>
-                            </TableCell> */}
                             <TableCell>
                               <Typography variant="h6">
                                 {index + 1 + (page - 1) * perPage} {/* Add 1 to the zero-based index */}
@@ -331,11 +293,6 @@ const TaskListTable = ({ searchQuery, filters }) => {
                                 </Box>
                               </Box>
                             </TableCell>
-                            {/* <TableCell>
-                              <Typography color="textSecondary" variant="h6">
-                                {task.description}
-                              </Typography>
-                            </TableCell> */}
                             <TableCell>
                               <Chip
                                 sx={{
@@ -424,30 +381,15 @@ const TaskListTable = ({ searchQuery, filters }) => {
                                               lg: 0,
                                             },
                                           }}
-                                          // onClick={() => handleDelete(task.id)}
                                           onClick={() => handleOpen(task.id)}
                                         >
                                           Delete
                                 </Button>
-                            </TableCell>
-                            {/* <TableCell align="left">
-                              <Typography variant="h6">${product.budget}k</Typography>
-                            </TableCell>
-                            <TableCell align="left">
-                              <Typography variant="h6">${product.budget}k</Typography>
-                            </TableCell> */}                          
+                            </TableCell>                       
                           </TableRow>
                 ))}
             </TableBody>
         </Table>
-        {/* <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={handlePageChange}
-            color="primary"
-          />
-        </Box> */}
         {/* Delete Confirmation Dialog */}
         <Dialog
           open={open}
