@@ -43,9 +43,17 @@ const UpdateTaskForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+
+        const token = localStorage.getItem("authToken");
+
         // Fetch task details using the ID
         axios
-          .get(`http://localhost:8000/api/show-task-details/${id}`)
+          .get(`http://localhost:8000/api/show-task-details/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+          })
           .then((response) => {
             const fetchedTask = response.data.data;
             setTask(fetchedTask);
@@ -83,6 +91,8 @@ const UpdateTaskForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        const token = localStorage.getItem("authToken");
     
         // Form data to send to the API
         const taskData = {
@@ -96,7 +106,12 @@ const UpdateTaskForm = () => {
         };
     
         axios
-          .post(`http://localhost:8000/api/update-task/${id}`, taskData)
+          .post(`http://localhost:8000/api/update-task/${id}`, taskData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          })
           .then((response) => {
             console.log("Task updated successfully:", response.data);
             setMessage("Task updated successfully!");
