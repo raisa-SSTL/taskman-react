@@ -45,6 +45,36 @@ const Header = (props) => {
     setAnchorEl4(null);
   };
 
+  const handleLogout = () => {
+    setAnchorEl4(null);
+
+    fetch('http://localhost:8000/api/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`, 
+      },
+    })
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.message || 'Failed to logout');
+        });
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data.message); // Log success message if needed
+      // Clear user data and redirect to login
+      localStorage.removeItem('authToken'); // Adjust based on your token storage strategy
+      window.location.href = '/login'; // Redirect to login page
+    })
+    .catch((error) => {
+      console.error('Logout failed:', error.message);
+      alert('Logout failed. Please try again.');
+    });
+  };
+
   // 5
   const [anchorEl5, setAnchorEl5] = React.useState(null);
 
@@ -259,7 +289,7 @@ const Header = (props) => {
             </ListItemIcon>
             Settings
           </MenuItem>
-          <MenuItem onClick={handleClose4}>
+          <MenuItem onClick={handleLogout}>
             <ListItemIcon>
               <LogoutOutlinedIcon fontSize="small" />
             </ListItemIcon>
