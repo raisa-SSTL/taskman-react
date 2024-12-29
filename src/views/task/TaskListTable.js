@@ -198,8 +198,16 @@ const TaskListTable = ({ searchQuery, filters }) => {
 
     const handleConfirmDelete = () => {
       if (!selectedTaskId) return;
+
+      const token = localStorage.getItem('authToken');
     
-      axios.post(`http://localhost:8000/api/delete-task/${selectedTaskId}`)
+      axios.post(`http://localhost:8000/api/delete-task/${selectedTaskId}`, {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        })
         .then((response) => {
           if (response.status === 200) {
             toast.success("Task deleted successfully!");

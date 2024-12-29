@@ -16,9 +16,23 @@ const ShowTask = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          setError("Authorization token is missing.");
+          setLoading(false);
+          return;
+        }
+
         // Fetch task details using the ID
         axios
-          .get(`http://localhost:8000/api/show-task-details/${id}`)
+          .get(`http://localhost:8000/api/show-task-details/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            }
+          })
           .then((response) => {
             setTask(response.data.data);
             setLoading(false);
@@ -27,7 +41,7 @@ const ShowTask = () => {
             setError(err.message);
             setLoading(false);
           });
-      }, [id]);
+    }, [id]);
 
       if (loading) {
               return (

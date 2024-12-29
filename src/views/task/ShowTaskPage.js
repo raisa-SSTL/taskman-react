@@ -14,28 +14,28 @@ import {
                 Task Details
             </Typography> */}
             <Typography sx={{ mb: 1 }}>
-                <strong>ID:</strong> {taskData.id}
+                <strong>ID:</strong> {taskData?.id}
             </Typography>
             <Typography sx={{ mb: 1 }}>
-                <strong>Title:</strong> {taskData.title}
+                <strong>Title:</strong> {taskData?.title}
             </Typography>
             <Typography sx={{ mb: 1 }}>
-                <strong>Description:</strong> {taskData.description || "No description provided"}
+                <strong>Description:</strong> {taskData?.description || "No description provided"}
             </Typography>
             <Typography sx={{ mb: 1 }}>
-                <strong>Priority:</strong> {taskData.priority || "Not specified"}
+                <strong>Priority:</strong> {taskData?.priority || "Not specified"}
             </Typography>
             <Typography sx={{ mb: 1 }}>
-                <strong>Deadline:</strong> {taskData.deadline || "No deadline set"}
+                <strong>Deadline:</strong> {taskData?.deadline || "No deadline set"}
             </Typography>
             <Typography sx={{ mb: 1 }}>
-                <strong>Status:</strong> {taskData.status || "No status set"}
+                <strong>Status:</strong> {taskData?.status || "No status set"}
             </Typography>
             <Typography sx={{ mb: 1 }}>
-                <strong>Start Date:</strong> {taskData.start_date || "Not specified"}
+                <strong>Start Date:</strong> {taskData?.start_date || "Not specified"}
             </Typography>
             <Typography sx={{ mb: 1 }}>
-                <strong>End Date:</strong> {taskData.end_date || "Not specified"}
+                <strong>End Date:</strong> {taskData?.end_date || "Not specified"}
             </Typography>
         </Box>
     );
