@@ -93,6 +93,12 @@ const UpdateTaskForm = () => {
         event.preventDefault();
 
         const token = localStorage.getItem("authToken");
+
+        if (!token) {
+            console.error("No authorization token found");
+            setMessage("Authorization failed. Please log in again.");
+            return;
+        }  
     
         // Form data to send to the API
         const taskData = {

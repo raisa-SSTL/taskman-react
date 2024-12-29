@@ -27,6 +27,13 @@ import {
     const [tasksPerPage] = useState(5);
 
     useEffect(() => {
+
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        console.error("No authorization token found");
+      } 
+
         if (selectedDate.month && selectedDate.year) {
           // Make API request only when both month and year are selected
           const fetchCompletedTasks = () => {
@@ -35,6 +42,11 @@ import {
                 month: selectedDate.month,
                 year: selectedDate.year,
                 page: currentPage,
+              }, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
               })
               .then((response) => {
                 setCompletedTasks(response.data.tasks.data || []);

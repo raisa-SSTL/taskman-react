@@ -116,8 +116,20 @@ const TaskOverview = () => {
 
   // Fetch task data based on the selected year 
   useEffect(() => {
+
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.error("No authorization token found");
+    }  
+
     axios
-      .post("http://localhost:8000/api/year-wise-tasks", { year }) 
+      .post("http://localhost:8000/api/year-wise-tasks", { year }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }) 
       .then((response) => {
         const tasks = response.data.tasks; // Assuming API returns tasks in `tasks` key
 
