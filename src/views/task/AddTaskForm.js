@@ -96,6 +96,14 @@ const AddTaskForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.error("No authorization token found");
+      setMessage("Authorization failed. Please log in again.");
+      return;
+    }    
+
     // Form data to send to the API
     const taskData = {
       title,
@@ -109,7 +117,12 @@ const AddTaskForm = () => {
 
     // Make an API call using axios with .then() and .catch()
     axios
-      .post("http://localhost:8000/api/task", taskData)
+      .post("http://localhost:8000/api/task", taskData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
       .then((response) => {
         console.log("Task created successfully:", response.data);
         setMessage("Task created successfully!");
