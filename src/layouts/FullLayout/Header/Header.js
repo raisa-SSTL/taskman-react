@@ -66,7 +66,8 @@ const Header = (props) => {
     .then((data) => {
       console.log(data.message); // Log success message if needed
       // Clear user data and redirect to login
-      localStorage.removeItem('authToken'); // Adjust based on your token storage strategy
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userData'); 
       window.location.href = '/login'; // Redirect to login page
     })
     .catch((error) => {

@@ -50,6 +50,7 @@ const Login = () => {
             .then((data) => {
                 // Save the token in localStorage or cookies
                 localStorage.setItem("authToken", data.access_token);
+                localStorage.setItem("userData", JSON.stringify(data.user));
 
                 // Redirect to /dashboard
                 navigate("/dashboard");
