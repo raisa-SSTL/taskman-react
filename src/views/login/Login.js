@@ -56,7 +56,14 @@ const Login = () => {
 
                 // Redirect to /dashboard
                 // navigate("/dashboard");
-                login(data.access_token, data.user); // Call login from context
+
+                const { access_token, expires_in, user } = data;
+                // Calculate token expiration time and save it
+                const expirationTime = Date.now() + expires_in * 1000; // Convert seconds to milliseconds
+                localStorage.setItem("authToken", access_token);
+                localStorage.setItem("userData", JSON.stringify(user));
+                localStorage.setItem("tokenExpiration", expirationTime);
+                login(access_token, user); // Call login from context
             })
             .catch((error) => {
                 setError(error.message); // Display the error

@@ -13,30 +13,54 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const userData = localStorage.getItem("userData");
-    if (token && userData) {
-      setAuthData({ token, user: JSON.parse(userData) });
+    const expirationTime = localStorage.getItem("tokenExpiration");
+
+    if (token && userData && expirationTime) {
+        const timeLeft = expirationTime - Date.now();
+        if (timeLeft > 0) {
+            setAuthData({ token, user: JSON.parse(userData) });
+
+            // Schedule automatic logout when token expires
+            const timer = setTimeout(() => {
+                handleLogout();
+            }, timeLeft);
+
+            return () => clearTimeout(timer); // Cleanup timeout
+        } else {
+            handleLogout(); // Token has expired
+        }
+    //   setAuthData({ token, user: JSON.parse(userData) });
     }
     setLoading(false);
   }, []);
 
   // Handle login
   const login = (token, user) => {
+    const expirationTime = localStorage.getItem("tokenExpiration");
+    // Schedule automatic logout based on expiration time
+    const timeLeft = expirationTime - Date.now();
+    const timer = setTimeout(() => {
+        handleLogout();
+    }, timeLeft);
+
     localStorage.setItem("authToken", token);
     localStorage.setItem("userData", JSON.stringify(user));
     setAuthData({ token, user });
     navigate("/dashboard");
+    return () => clearTimeout(timer); // Cleanup timer
   };
 
   // Handle logout
-  const logout = () => {
+  const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("userData");
+    localStorage.removeItem("tokenExpiration");
     setAuthData(null);
     navigate("/login");
   };
 
   return (
-    <AuthContext.Provider value={{ authData, login, logout, loading }}>
+    <AuthContext.Provider value={{ authData, login, logout: handleLogout, loading }}>
       {children}
     </AuthContext.Provider>
   );
