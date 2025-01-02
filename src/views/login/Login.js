@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Card, CardContent, Box, Typography, Button, TextField, FormControlLabel, Checkbox } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
 
@@ -11,6 +12,7 @@ const Login = () => {
     });
 
     const [error, setError] = useState(null); // For displaying error messages
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -49,11 +51,12 @@ const Login = () => {
             })
             .then((data) => {
                 // Save the token in localStorage or cookies
-                localStorage.setItem("authToken", data.access_token);
-                localStorage.setItem("userData", JSON.stringify(data.user));
+                // localStorage.setItem("authToken", data.access_token);
+                // localStorage.setItem("userData", JSON.stringify(data.user));
 
                 // Redirect to /dashboard
-                navigate("/dashboard");
+                // navigate("/dashboard");
+                login(data.access_token, data.user); // Call login from context
             })
             .catch((error) => {
                 setError(error.message); // Display the error

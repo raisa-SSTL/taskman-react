@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 //import { Link } from 'react-router-dom';
 
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
@@ -7,6 +7,7 @@ import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { AuthContext } from "../../../context/AuthContext";
 
 import {
   AppBar,
@@ -25,6 +26,8 @@ import userimg from "../../../assets/images/users/user.jpg";
 
 const Header = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const { logout } = useContext(AuthContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -290,7 +293,8 @@ const Header = (props) => {
             </ListItemIcon>
             Settings
           </MenuItem>
-          <MenuItem onClick={handleLogout}>
+          {/* <MenuItem onClick={handleLogout}> */}
+          <MenuItem onClick={logout}>
             <ListItemIcon>
               <LogoutOutlinedIcon fontSize="small" />
             </ListItemIcon>

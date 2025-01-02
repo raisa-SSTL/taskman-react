@@ -7,6 +7,7 @@ import UpdateTask from "../views/task/UpdateTask.js";
 import Dashboard from "../views/dashboard/Dashboard.js";
 import Login from "../views/login/Login.js";
 import Register from "../views/register/Register.js";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
@@ -38,7 +39,11 @@ const ThemeRoutes = [
   { path: "/register", element: <Register/> },
   {
     path: "/",
-    element: <FullLayout />,
+    element: (
+      <ProtectedRoute>
+        <FullLayout />
+      </ProtectedRoute>
+    ), // Protect all routes under "/",
     children: [
       // { path: "/", element: <Navigate to="dashboards/dashboard1" /> },
       { path: "/", element: <Navigate to="login" /> },

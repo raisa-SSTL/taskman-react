@@ -5,6 +5,7 @@ import { HashRouter } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import Spinner from "./views/Spinner/Spinner";
+import AuthProvider from "./context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -12,7 +13,9 @@ root.render(
     <Suspense fallback={<Spinner />}>
       {/* <HashRouter> */}
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
       {/* </HashRouter> */}
     </Suspense>
