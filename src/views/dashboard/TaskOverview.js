@@ -218,11 +218,20 @@ const TaskOverview = () => {
                 }}
                 >
                 {/* Dynamically populate years */}
-                {Array.from({ length: 10 }, (_, index) => (
+                {/* {Array.from({ length: 10 }, (_, index) => (
                     <MenuItem key={index} value={2024 - index}>
                     {2024 - index}
                     </MenuItem>
-                ))}
+                ))} */}
+                {Array.from({ length: 10 }, (_, index) => {
+                    const currentYear = new Date().getFullYear();
+                    const yearValue = currentYear - index;
+                    return (
+                        <MenuItem key={index} value={yearValue}>
+                            {yearValue}
+                        </MenuItem>
+                    );
+                })}
                 </Select>
             </Box>
             <Box
