@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { Card, CardContent, Box, Typography, Button, Fab, TextField, Menu, MenuItem, FormControlLabel, Checkbox } from "@mui/material";
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import TaskListTable from "./TaskListTable";
 import { useNavigate } from "react-router-dom";
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { AuthContext } from "../../context/AuthContext";
 
 const TaskList = () => {
   const navigate = useNavigate();
@@ -16,8 +17,10 @@ const TaskList = () => {
   });
 
   // Get user permissions from localStorage
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  const userPermissions = userData?.permissions || [];
+  const { authData } = useContext(AuthContext);
+  // const userData = JSON.parse(localStorage.getItem("userData"));
+  // const userPermissions = userData?.permissions || [];
+  const userPermissions = authData?.user?.permissions || [];
 
   const handleButtonClick = () => {
     navigate("/task/add-task");
