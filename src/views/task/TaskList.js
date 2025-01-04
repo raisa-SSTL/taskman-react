@@ -15,6 +15,10 @@ const TaskList = () => {
     status: [],
   });
 
+  // Get user permissions from localStorage
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const userPermissions = userData?.permissions || [];
+
   const handleButtonClick = () => {
     navigate("/task/add-task");
   };
@@ -149,12 +153,15 @@ const TaskList = () => {
                   width: "250px", // Set the width of the search bar
                 }}
                 />
-                <Fab
-                    color="secondary"
-                    onClick={handleButtonClick}
-                  >
-                    <AddToPhotosOutlinedIcon />
-                </Fab>
+                {/* Add Button */}
+                {userPermissions.includes("create tasks") && (
+                  <Fab
+                      color="secondary"
+                      onClick={handleButtonClick}
+                    >
+                      <AddToPhotosOutlinedIcon />
+                  </Fab>
+                )}
               </Box>
             </Box>
               <Box
