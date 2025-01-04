@@ -37,7 +37,13 @@ const FormLayouts = lazy(() => import("../views/FormLayouts/FormLayouts.js"));
 const ThemeRoutes = [
   // L O G I N
   { path: "/login", element: <Login/> },
-  { path: "/register", element: <Register/> },
+  { path: "/register", 
+    element: (
+      <PermissionRoute permission="access dashboard">
+        <Register/> 
+      </PermissionRoute>
+    ), 
+  },
   {
     path: "/",
     element: (
