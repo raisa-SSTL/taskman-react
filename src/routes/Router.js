@@ -8,6 +8,7 @@ import Dashboard from "../views/dashboard/Dashboard.js";
 import Login from "../views/login/Login.js";
 import Register from "../views/register/Register.js";
 import ProtectedRoute from "../components/ProtectedRoute";
+import PermissionRoute from "../components/PermissionRoute.js";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
@@ -61,7 +62,13 @@ const ThemeRoutes = [
 
       // T A S K
 
-      { path: "/task/add-task", element: <AddTask /> },
+      { path: "/task/add-task", 
+        element: (
+          <PermissionRoute permission="create tasks">
+            <AddTask />
+          </PermissionRoute>
+        ), 
+      },
       { path: "/task/task-list", element: <TaskList /> },
       { path: "/task/show-task/:id", element: <ShowTask /> },
       { path: "/task/update-task/:id", element: <UpdateTask /> },
