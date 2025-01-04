@@ -69,9 +69,27 @@ const ThemeRoutes = [
           </PermissionRoute>
         ), 
       },
-      { path: "/task/task-list", element: <TaskList /> },
-      { path: "/task/show-task/:id", element: <ShowTask /> },
-      { path: "/task/update-task/:id", element: <UpdateTask /> },
+      { path: "/task/task-list", 
+        element: (
+          <PermissionRoute permission="access tasks">
+            <TaskList /> 
+          </PermissionRoute>
+        ), 
+      },
+      { path: "/task/show-task/:id", 
+        element: (
+          <PermissionRoute permission="access tasks">
+            <ShowTask />  
+          </PermissionRoute>
+        ), 
+      },
+      { path: "/task/update-task/:id", 
+        element: (
+          <PermissionRoute permission="update tasks">
+            <UpdateTask /> 
+          </PermissionRoute>
+        ), 
+      },
 
       // D A S H B O A R D
 

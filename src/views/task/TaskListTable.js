@@ -20,7 +20,7 @@ const products = [
       },
 ];
 
-const TaskListTable = ({ searchQuery, filters }) => {
+const TaskListTable = ({ searchQuery, filters, permission }) => {
 
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
@@ -378,21 +378,23 @@ const TaskListTable = ({ searchQuery, filters }) => {
                                         >
                                           Update
                                 </Button>
-                                <Button
-                                          variant="outlined"
-                                          color="error"
-                                          sx={{
-                                            mr: 1,
-                                            mb: {
-                                              xs: 1,
-                                              sm: 0,
-                                              lg: 0,
-                                            },
-                                          }}
-                                          onClick={() => handleOpen(task.id)}
-                                        >
-                                          Delete
-                                </Button>
+                                {permission.includes("create tasks") && (
+                                  <Button
+                                            variant="outlined"
+                                            color="error"
+                                            sx={{
+                                              mr: 1,
+                                              mb: {
+                                                xs: 1,
+                                                sm: 0,
+                                                lg: 0,
+                                              },
+                                            }}
+                                            onClick={() => handleOpen(task.id)}
+                                          >
+                                            Delete
+                                  </Button>
+                                )}
                             </TableCell>                       
                           </TableRow>
                 ))}

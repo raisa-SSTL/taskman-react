@@ -172,7 +172,7 @@ const TaskList = () => {
                   },
                 }}
               >
-                <TaskListTable searchQuery={searchQuery} filters={selectedFilters}/>
+                <TaskListTable searchQuery={searchQuery} filters={selectedFilters} permission={userPermissions}/>
               </Box>
             </CardContent>
           </Card>
