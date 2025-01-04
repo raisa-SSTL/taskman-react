@@ -66,11 +66,13 @@ const Menuitems = [
     title: "Task",
     icon: DescriptionOutlinedIcon,
     href: "/task/task-list",
+    permission: "access tasks",
   },
   {
     title: "Dashboard",
     icon: DashboardOutlinedIcon,
     href: "/dashboard",
+    permission: "access dashboard",
   },
   // {
   //   title: "Show Task",

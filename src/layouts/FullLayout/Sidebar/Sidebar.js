@@ -21,6 +21,15 @@ const Sidebar = (props) => {
   const pathDirect = pathname;
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
+  // Retrieve user data from localStorage
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const userPermissions = userData?.permissions || [];
+
+  // Filter Menuitems based on permissions
+  const filteredMenuitems = Menuitems.filter((item) =>
+    item.permission ? userPermissions.includes(item.permission) : true
+  );
+
   const handleClick = (index) => {
     if (open === index) {
       setOpen((prevopen) => !prevopen);
@@ -43,8 +52,8 @@ const Sidebar = (props) => {
             mt: 4,
           }}
         >
-          {Menuitems.map((item, index) => {
-            //{/********SubHeader**********/}
+          {/* {Menuitems.map((item, index) => {
+            
 
             return (
               <List component="li" disablePadding key={item.title}>
@@ -74,7 +83,35 @@ const Sidebar = (props) => {
                 </ListItem>
               </List>
             );
-          })}
+          })} */}
+          {filteredMenuitems.map((item, index) => (
+            <List component="li" disablePadding key={item.title}>
+              <ListItem
+                onClick={() => handleClick(index)}
+                button
+                component={NavLink}
+                to={item.href}
+                selected={pathDirect === item.href}
+                sx={{
+                  mb: 1,
+                  ...(pathDirect === item.href && {
+                    color: "white",
+                    backgroundColor: (theme) =>
+                      `${theme.palette.primary.main}!important`,
+                  }),
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    ...(pathDirect === item.href && { color: "white" }),
+                  }}
+                >
+                  <item.icon width="20" height="20" />
+                </ListItemIcon>
+                <ListItemText>{item.title}</ListItemText>
+              </ListItem>
+            </List>
+          ))}
         </List>
       </Box>
       <Buynow />
