@@ -7,6 +7,7 @@ import SwitchCameraOutlinedIcon from '@mui/icons-material/SwitchCameraOutlined';
 import SwitchLeftOutlinedIcon from '@mui/icons-material/SwitchLeftOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import AutoAwesomeMosaicOutlinedIcon from '@mui/icons-material/AutoAwesomeMosaicOutlined';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
 const Menuitems = [
   {
@@ -63,16 +64,28 @@ const Menuitems = [
   //   href: "/task/add-task",
   // },
   {
+    title: "Dashboard",
+    icon: DashboardOutlinedIcon,
+    href: "/dashboard",
+    permission: "access dashboard",
+  },
+  {
     title: "Task",
     icon: DescriptionOutlinedIcon,
     href: "/task/task-list",
     permission: "access tasks",
   },
   {
-    title: "Dashboard",
+    title: "Employee",
+    icon: PersonOutlinedIcon,
+    href: "/employee/employee-list",
+    permission: "access employees",
+  },
+  {
+    title: "Add Employee",
     icon: DashboardOutlinedIcon,
-    href: "/dashboard",
-    permission: "access dashboard",
+    href: "/employee/add-employee",
+    permission: "create employees",
   },
   // {
   //   title: "Show Task",
