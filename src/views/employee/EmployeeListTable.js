@@ -189,7 +189,7 @@ const EmployeeListTable = ({searchText, permissions}) => {
                                               lg: 0,
                                             },
                                           }}
-                                        //   onClick={() => navigate(`/task/show-task/${task.id}`)}
+                                          onClick={() => navigate(`/employee/show-employee/${employee.id}`)}
                                         >
                                           View
                                 </Button>

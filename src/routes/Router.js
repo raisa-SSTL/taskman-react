@@ -11,6 +11,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import PermissionRoute from "../components/PermissionRoute.js";
 import EmployeeList from "../views/employee/EmployeeList.js";
 import AddEmployee from "../views/employee/AddEmployee.js";
+import ShowEmployee from "../views/employee/ShowEmployee.js";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
@@ -116,6 +117,13 @@ const ThemeRoutes = [
         element: (
           <PermissionRoute permission="create employee">
             <AddEmployee /> 
+          </PermissionRoute>
+        ), 
+      },    
+      { path: "/employee/show-employee/:id", 
+        element: (
+          <PermissionRoute permission="access employees">
+            <ShowEmployee /> 
           </PermissionRoute>
         ), 
       },      
