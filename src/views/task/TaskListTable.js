@@ -378,7 +378,7 @@ const TaskListTable = ({ searchQuery, filters, permission }) => {
                                         >
                                           Update
                                 </Button>
-                                {permission.includes("create tasks") && (
+                                {permission.includes("delete tasks") && (
                                   <Button
                                             variant="outlined"
                                             color="error"

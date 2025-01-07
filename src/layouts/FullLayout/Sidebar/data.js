@@ -81,12 +81,12 @@ const Menuitems = [
     href: "/employee/employee-list",
     permission: "access employees",
   },
-  {
-    title: "Add Employee",
-    icon: DashboardOutlinedIcon,
-    href: "/employee/add-employee",
-    permission: "create employees",
-  },
+  // {
+  //   title: "Add Employee",
+  //   icon: DashboardOutlinedIcon,
+  //   href: "/employee/add-employee",
+  //   permission: "create employees",
+  // },
   // {
   //   title: "Show Task",
   //   icon: DescriptionOutlinedIcon,

@@ -1,20 +1,26 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 
-import { Card, CardContent, Box, Typography, Fab } from "@mui/material";
+import { Card, CardContent, Box, Typography, Fab, TextField } from "@mui/material";
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
-import ExTable from "../dashboards/dashboard1-components/ExTable";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import EmployeeListTable from "./EmployeeListTable";
 
 const EmployeeList = () => {
 
   const navigate = useNavigate();
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { authData } = useContext(AuthContext);
   const userPermissions = authData?.user?.permissions || [];
 
   const handleAddButtonClick = () => {
     navigate("/employee/add-employee");
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
   };
 
   return (
@@ -37,6 +43,17 @@ const EmployeeList = () => {
               gap: 2, // Adds spacing between the search bar and the Fab icon
               }}
             >
+              {/* Search Bar */}
+                <TextField
+                              variant="outlined"
+                              size="small"
+                              placeholder="Search Tasks..."
+                              value={searchQuery}
+                              onChange={handleSearchChange}
+                              sx={{
+                                width: "250px", // Set the width of the search bar
+                              }}
+              />
               {/* Add Button */}
               {userPermissions.includes("create employee") && (
                 <Fab
@@ -56,7 +73,8 @@ const EmployeeList = () => {
               },
             }}
           >
-            <ExTable />
+            {/* <ExTable /> */}
+            <EmployeeListTable searchText={searchQuery} permissions={userPermissions}/>
           </Box>
         </CardContent>
       </Card>
