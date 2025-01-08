@@ -204,7 +204,7 @@ const EmployeeListTable = ({searchText, permissions}) => {
                                               lg: 0,
                                             },
                                           }}
-                                        //   onClick={() => navigate(`/task/update-task/${task.id}`)}
+                                          onClick={() => navigate(`/employee/update-employee/${employee.id}`)}
                                         >
                                           Update
                                 </Button>
