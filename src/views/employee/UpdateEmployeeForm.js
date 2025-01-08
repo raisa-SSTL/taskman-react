@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { GlobalContext } from "../../context/GlobalContext";
 
 import {
     Card,
@@ -22,14 +23,72 @@ import {
   const UpdateEmployeeForm = () => {
 
     const { id } = useParams();
-    const [employee, setEmployee] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+    const { employee, fetchEmployee } = useContext(GlobalContext);
     
     const navigate = useNavigate();
 
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        phone: "",
+    });
+
     const handleBackButtonClick = () => {
         navigate("/employee/employee-list");
+    };
+
+    useEffect(() => {
+        if (!id) {
+          setError("Employee ID is missing.");
+          return;
+        }
+      
+        fetchEmployee(id)
+          .then((data) => {
+            console.log("Employee fetched successfully:", data);
+            setFormData({
+                name: data.name || "",
+                email: data.email || "",
+                phone: data.phone || "",
+                password: "",
+            });
+          })
+          .catch((err) => {
+            console.error("Failed to fetch employee data:", err.message);
+          });
+    }, [id]);
+      
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData((prevData) => ({
+          ...prevData,
+          [id]: value,
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem("authToken");
+        axios
+          .post(`http://localhost:8000/api/update-employee/${id}`, formData,
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`, // Include the token
+                  "Content-Type": "application/json", // Optional, defaults to JSON
+                },
+              }
+          )
+          .then((response) => {
+            setSuccess("Employee updated successfully!");
+            navigate("/employee/employee-list");
+          })
+          .catch((err) => {
+            setError(err.response?.data?.message || "Failed to update employee.");
+          });
     };
 
     return(
@@ -87,14 +146,14 @@ import {
                                     padding: "30px",
                                 }}
                 >
-                    {/* <form onSubmit={handleSubmit}> */}
-                    <form>
+                    {employee && (
+                    <form onSubmit={handleSubmit}>
                         <TextField
                                             id="name"
                                             label="Name"
                                             variant="outlined"
-                                            // value={name}
-                                            // onChange={(e) => setTitle(e.target.value)}
+                                            value={formData.name}
+                                            onChange={handleChange}
                                             defaultValue=""
                                             fullWidth
                                             sx={{
@@ -114,8 +173,8 @@ import {
                                                             id="email"
                                                             variant="outlined"
                                                             label="Email"
-                                                            // value={priority}
-                                                            // onChange={handlePriorityChange}
+                                                            value={formData.email}
+                                                            onChange={handleChange}
                                                             sx={{
                                                             mb: 2, 
                                                             }}
@@ -128,8 +187,8 @@ import {
                                                                 id="password"
                                                                 variant="outlined"
                                                                 label="Password"
-                                                                // value={priority}
-                                                                // onChange={handlePriorityChange}
+                                                                value={formData.password}
+                                                                onChange={handleChange}
                                                                 sx={{
                                                                 mb: 2, 
                                                                 }}
@@ -150,8 +209,8 @@ import {
                                                                 id="phone"
                                                                 variant="outlined"
                                                                 label="Phone"
-                                                                // value={priority}
-                                                                // onChange={handlePriorityChange}
+                                                                value={formData.phone}
+                                                                onChange={handleChange}
                                                                 sx={{
                                                                 mb: 2, 
                                                                 }}
@@ -166,7 +225,9 @@ import {
                         </div>
 
                     </form>
-
+                    )}
+                    {error && <Typography color="error">{error}</Typography>}
+                    {success && <Typography color="success">{success}</Typography>}
                 </CardContent>
             </Card>
         </div>
