@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import Spinner from "./views/Spinner/Spinner";
 import AuthProvider from "./context/AuthContext";
+import { GlobalProvider } from "./context/GlobalContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +15,9 @@ root.render(
       {/* <HashRouter> */}
       <BrowserRouter>
         <AuthProvider>
-          <App />
+          <GlobalProvider>
+            <App />
+          </GlobalProvider>
         </AuthProvider>
       </BrowserRouter>
       {/* </HashRouter> */}
