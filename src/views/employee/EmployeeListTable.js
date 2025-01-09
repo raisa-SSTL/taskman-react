@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "../../context/AuthContext";
+import { GlobalContext } from "../../context/GlobalContext";
 
 import {
     Typography, Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, CircularProgress, Button, Pagination, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
@@ -12,53 +13,60 @@ import {
 const EmployeeListTable = ({searchText, permissions}) => {
 
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    // const [totalPages, setTotalPages] = useState(1);
     const perPage = 5;
     const [open, setOpen] = useState(false);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
 
     const {authData} = useContext(AuthContext);
 
-    const [employees, setEmployees] = useState([]);
+    // const [employees, setEmployees] = useState([]);
+
+    const { employeeList, totalPages, getEmployeeList, loading } =
+    useContext(GlobalContext);
+
+    // useEffect(() => {
+    //     const getEmployeeList = () => {
+    //             setLoading(true);
+
+    //             const headers = {
+    //                 Authorization: `Bearer ${authData.token}`,
+    //                 "Content-Type": "application/json",
+    //             };
+
+    //             const url = searchText
+    //               ? `http://localhost:8000/api/search-employee` 
+    //               : `http://localhost:8000/api/employee-list?page=${page}`; 
+          
+    //             const payload = searchText ? { name: searchText } : null;
+          
+    //             const request = searchText
+    //               ? axios.post(url, payload, { headers })
+    //               : axios.get(url, { headers });
+          
+    //             request
+    //               .then((response) => {
+    //                 const data = response.data.data || [];
+    //                 setEmployees(data.data || data); 
+    //                 setTotalPages(data.last_page || 1);
+    //               })
+    //               .catch((error) => {
+    //                 console.error("Error fetching tasks:", error);
+    //               })
+    //               .finally(() => {
+    //                 setLoading(false);
+    //               });
+    //           };
+          
+    //     getEmployeeList();
+          
+    // }, [page, searchText]);
 
     useEffect(() => {
-        const getEmployeeList = () => {
-                setLoading(true);
-
-                const headers = {
-                    Authorization: `Bearer ${authData.token}`,
-                    "Content-Type": "application/json",
-                };
-
-                const url = searchText
-                  ? `http://localhost:8000/api/search-employee` 
-                  : `http://localhost:8000/api/employee-list?page=${page}`; 
-          
-                const payload = searchText ? { name: searchText } : null;
-          
-                const request = searchText
-                  ? axios.post(url, payload, { headers })
-                  : axios.get(url, { headers });
-          
-                request
-                  .then((response) => {
-                    const data = response.data.data || [];
-                    setEmployees(data.data || data); 
-                    setTotalPages(data.last_page || 1);
-                  })
-                  .catch((error) => {
-                    console.error("Error fetching tasks:", error);
-                  })
-                  .finally(() => {
-                    setLoading(false);
-                  });
-              };
-          
-        getEmployeeList();
-          
-    }, [page, searchText]);
+      getEmployeeList(searchText, page);
+    }, [searchText, page]);
 
     if (loading) {
             return (
@@ -143,7 +151,7 @@ const EmployeeListTable = ({searchText, permissions}) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {employees.map((employee, index) => (
+                    {employeeList.map((employee, index) => (
                         <TableRow key={employee.id}>
                             <TableCell>
                               <Typography variant="h6">

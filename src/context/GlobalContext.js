@@ -42,6 +42,49 @@ export const GlobalProvider = ({ children }) => {
       });
   };
 
+  const [employeeList, setEmployeeList] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+
+  // Function to fetch employee list
+  const getEmployeeList = (searchText, page) => {
+    setLoading(true);
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setError("Authorization token is missing.");
+      setLoading(false);
+      return;
+    }
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    const url = searchText
+      ? `http://localhost:8000/api/search-employee`
+      : `http://localhost:8000/api/employee-list?page=${page}`;
+
+    const payload = searchText ? { name: searchText } : null;
+
+    const request = searchText
+      ? axios.post(url, payload, { headers })
+      : axios.get(url, { headers });
+
+    request
+      .then((response) => {
+        const data = response.data.data || [];
+        setEmployeeList(data.data || data);
+        setTotalPages(data.last_page || 1);
+      })
+      .catch((error) => {
+        console.error("Error fetching employees:", error);
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -49,6 +92,9 @@ export const GlobalProvider = ({ children }) => {
         fetchEmployee,
         loading,
         error,
+        employeeList,
+        getEmployeeList,
+        totalPages
       }}
     >
       {children}
