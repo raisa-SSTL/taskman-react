@@ -10,25 +10,35 @@ export const GlobalProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Get the token from localStorage
+  const token = localStorage.getItem("authToken");
+  const headers = token
+    ? {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    : null;
+
   // Function to fetch employee data by ID using Promises
   const fetchEmployee = (id) => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-    //   setError("Authorization token is missing.");
-    //   return;
-        const errorMessage = "Authorization token is missing.";
-        setError(errorMessage);
-        setLoading(false); 
-        return Promise.reject(new Error(errorMessage));
+    // const token = localStorage.getItem("authToken");
+    // if (!token) {
+    //     const errorMessage = "Authorization token is missing.";
+    //     setError(errorMessage);
+    //     setLoading(false); 
+    //     return Promise.reject(new Error(errorMessage));
+    // }
+    if (!headers) {
+      const errorMessage = "Authorization token is missing.";
+      setError(errorMessage);
+      setLoading(false);
+      return Promise.reject(new Error(errorMessage));
     }
 
     setLoading(true);
     return axios
       .get(`http://localhost:8000/api/show-employee-details/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+        headers,
       })
       .then((response) => {
         setEmployee(response.data.data);
@@ -48,17 +58,23 @@ export const GlobalProvider = ({ children }) => {
   // Function to fetch employee list
   const getEmployeeList = (searchText, page) => {
     setLoading(true);
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      setError("Authorization token is missing.");
+    // const token = localStorage.getItem("authToken");
+    // if (!token) {
+    //   setError("Authorization token is missing.");
+    //   setLoading(false);
+    //   return;
+    // }
+    if (!headers) {
+      const errorMessage = "Authorization token is missing.";
+      setError(errorMessage);
       setLoading(false);
       return;
     }
 
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
+    // const headers = {
+    //   Authorization: `Bearer ${token}`,
+    //   "Content-Type": "application/json",
+    // };
 
     const url = searchText
       ? `http://localhost:8000/api/search-employee`
