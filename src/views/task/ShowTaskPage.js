@@ -1,12 +1,22 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 
 import {
     Typography,
     Box,
     Button
-  } from "@mui/material";
+} from "@mui/material";
+
+import { GlobalContext } from "../../context/GlobalContext";
   
   const ShowTaskPage = ({taskData}) => {
+
+    const {assignedTasksList, getAssignedTasksList} = useContext(GlobalContext);
+
+    useEffect(() => {
+        getAssignedTasksList();
+    }, [])
+
+    const assignedTask = assignedTasksList.find((task) => task.task_id === taskData?.id);
 
     return (
         <Box>
@@ -37,6 +47,11 @@ import {
             <Typography sx={{ mb: 1 }}>
                 <strong>End Date:</strong> {taskData?.end_date || "Not specified"}
             </Typography>
+            {assignedTask?.employee && 
+                <Typography sx={{ mb: 1 }}>
+                    <strong>Assigned To:</strong> {assignedTask.employee.name}
+                </Typography>
+            }
         </Box>
     );
 
