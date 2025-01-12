@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AssignTaskModal from "./AssignTaskModal";
+import { GlobalContext } from "../../context/GlobalContext";
 
 import {
   Typography, Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, CircularProgress, Button, Pagination, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
 } from "@mui/material";
-
-const products = [
-    {
-        id: "1",
-        name: "Sunil Joshi",
-        post: "Web Designer",
-        pname: "Elite Admin",
-        priority: "Low",
-        pbg: "primary.main",
-        budget: "3.9",
-      },
-];
 
 const TaskListTable = ({ searchQuery, filters, permission }) => {
 
@@ -30,6 +20,11 @@ const TaskListTable = ({ searchQuery, filters, permission }) => {
     const [open, setOpen] = useState(false);
     const [selectedTaskId, setSelectedTaskId] = useState(null);
     const perPage = 5;
+
+    const [assignModalOpen, setAssignModalOpen] = useState(false);
+    const [currentTaskId, setCurrentTaskId] = useState(null);
+
+    const { assignedTasksList, getAssignedTasksList } = useContext(GlobalContext);
 
     // USING INDEX API
 
@@ -165,6 +160,7 @@ const TaskListTable = ({ searchQuery, filters, permission }) => {
       };
   
       fetchTasks();
+      getAssignedTasksList();
     }, [page, searchQuery, filters]);
   
     const handlePageChange = (event, value) => {
@@ -222,6 +218,16 @@ const TaskListTable = ({ searchQuery, filters, permission }) => {
           handleClose(); // Close the dialog
         });
     };
+
+    const handleAssignModalOpen = (taskId) => {
+      setCurrentTaskId(taskId);
+      setAssignModalOpen(true);
+    };
+
+    const handleAssignModalClose = () => {
+      setAssignModalOpen(false);
+      setCurrentTaskId(null);
+    };   
 
     return (
       <>
@@ -378,6 +384,35 @@ const TaskListTable = ({ searchQuery, filters, permission }) => {
                                         >
                                           Update
                                 </Button>
+                                <Button
+                                          // variant="outlined"
+                                          variant={
+                                            assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
+                                              ? "contained"
+                                              : "outlined"
+                                          }
+                                          color="success"
+                                          sx={{
+                                            mr: 1,
+                                            mb: {
+                                              xs: 1,
+                                              sm: 0,
+                                              lg: 0,
+                                            },
+                                          }}
+                                    // onClick={()=>handleAssignModalOpen(task.id)}
+                                    onClick={() =>
+                                      assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
+                                        ? null // Disable the onClick if already assigned
+                                        : handleAssignModalOpen(task.id)
+                                    }
+                                  >
+                                    {/* Assign */}
+                                    {assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
+                                      ? "Assigned"
+                                      : "Assign"
+                                    }
+                                </Button>
                                 {permission.includes("delete tasks") && (
                                   <Button
                                             variant="outlined"
@@ -423,7 +458,7 @@ const TaskListTable = ({ searchQuery, filters, permission }) => {
           </DialogActions>
         </Dialog>
         {/* Toast Container */}
-        <ToastContainer position="bottom-center" autoClose={3000} />
+        <ToastContainer position="top-right" autoClose={3000} />
         {!searchQuery && (
           <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
             <Pagination
@@ -434,6 +469,13 @@ const TaskListTable = ({ searchQuery, filters, permission }) => {
             />
           </Box>
       )}
+
+      <AssignTaskModal
+        open={assignModalOpen}
+        onClose={handleAssignModalClose}
+        taskId={currentTaskId}
+        // onTaskAssigned={handleTaskAssigned}
+      />
       </>
     );
 };

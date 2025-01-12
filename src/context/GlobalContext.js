@@ -21,20 +21,12 @@ export const GlobalProvider = ({ children }) => {
 
   // Function to fetch employee data by ID using Promises
   const fetchEmployee = (id) => {
-    // const token = localStorage.getItem("authToken");
-    // if (!token) {
-    //     const errorMessage = "Authorization token is missing.";
-    //     setError(errorMessage);
-    //     setLoading(false); 
-    //     return Promise.reject(new Error(errorMessage));
-    // }
     if (!headers) {
       const errorMessage = "Authorization token is missing.";
       setError(errorMessage);
       setLoading(false);
       return Promise.reject(new Error(errorMessage));
     }
-
     setLoading(true);
     return axios
       .get(`http://localhost:8000/api/show-employee-details/${id}`, {
@@ -58,24 +50,12 @@ export const GlobalProvider = ({ children }) => {
   // Function to fetch employee list
   const getEmployeeList = (searchText, page) => {
     setLoading(true);
-    // const token = localStorage.getItem("authToken");
-    // if (!token) {
-    //   setError("Authorization token is missing.");
-    //   setLoading(false);
-    //   return;
-    // }
     if (!headers) {
       const errorMessage = "Authorization token is missing.";
       setError(errorMessage);
       setLoading(false);
       return;
     }
-
-    // const headers = {
-    //   Authorization: `Bearer ${token}`,
-    //   "Content-Type": "application/json",
-    // };
-
     const url = searchText
       ? `http://localhost:8000/api/search-employee`
       : `http://localhost:8000/api/employee-list?page=${page}`;
@@ -101,6 +81,29 @@ export const GlobalProvider = ({ children }) => {
       });
   };
 
+  const [assignedTasksList, setAssignedTasksList] = useState([]);
+
+  const getAssignedTasksList = () => {
+    setLoading(true);
+    if (!headers) {
+      const errorMessage = "Authorization token is missing.";
+      setError(errorMessage);
+      setLoading(false);
+      return;
+    }
+    axios.get(`http://localhost:8000/api/all-assigned-tasks`, {headers})
+          .then((response) => {
+            const data = response.data.data;
+            setAssignedTasksList(data); 
+            setLoading(false);
+            console.log("assigned tasks list", data);
+          })
+          .catch((error) => {
+            console.error("Error fetching assigned tasks list:", error);
+            setLoading(false);
+          });
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -110,7 +113,11 @@ export const GlobalProvider = ({ children }) => {
         error,
         employeeList,
         getEmployeeList,
-        totalPages
+        totalPages,
+        token,
+        headers,
+        assignedTasksList,
+        getAssignedTasksList
       }}
     >
       {children}
