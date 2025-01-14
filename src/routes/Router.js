@@ -58,15 +58,15 @@ const ThemeRoutes = [
     children: [
       // { path: "/", element: <Navigate to="dashboards/dashboard1" /> },
       { path: "/", element: <Navigate to="login" /> },
-      { path: "dashboards/dashboard1", exact: true, element: <Dashboard1 /> },
-      { path: "tables/basic-table", element: <BasicTable /> },
-      { path: "/form-layouts/form-layouts", element: <FormLayouts /> },
-      { path: "/form-elements/autocomplete", element: <ExAutoComplete /> },
-      { path: "/form-elements/button", element: <ExButton /> },
-      { path: "/form-elements/checkbox", element: <ExCheckbox /> },
-      { path: "/form-elements/radio", element: <ExRadio /> },
-      { path: "/form-elements/slider", element: <ExSlider /> },
-      { path: "/form-elements/switch", element: <ExSwitch /> },
+      // { path: "dashboards/dashboard1", exact: true, element: <Dashboard1 /> },
+      // { path: "tables/basic-table", element: <BasicTable /> },
+      // { path: "/form-layouts/form-layouts", element: <FormLayouts /> },
+      // { path: "/form-elements/autocomplete", element: <ExAutoComplete /> },
+      // { path: "/form-elements/button", element: <ExButton /> },
+      // { path: "/form-elements/checkbox", element: <ExCheckbox /> },
+      // { path: "/form-elements/radio", element: <ExRadio /> },
+      // { path: "/form-elements/slider", element: <ExSlider /> },
+      // { path: "/form-elements/switch", element: <ExSwitch /> },
 
       //--------------------------
 
