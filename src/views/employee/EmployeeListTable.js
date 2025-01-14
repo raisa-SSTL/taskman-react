@@ -65,8 +65,10 @@ const EmployeeListTable = ({searchText, permissions}) => {
     // }, [page, searchText]);
 
     useEffect(() => {
-      getEmployeeList(searchText, page);
-    }, [searchText, page]);
+      if (authData?.token) {
+        getEmployeeList(searchText, page);
+      }
+    }, [authData, searchText, page]);
 
     if (loading) {
             return (

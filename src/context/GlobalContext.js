@@ -1,5 +1,6 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import axios from 'axios';
+import { AuthContext } from './AuthContext';
 
 // Create Context
 export const GlobalContext = createContext();
@@ -10,8 +11,11 @@ export const GlobalProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const {authData} = useContext(AuthContext);
+
   // Get the token from localStorage
-  const token = localStorage.getItem("authToken");
+  // const token = localStorage.getItem("authToken");
+  const token = authData?.token;
   const headers = token
     ? {
         Authorization: `Bearer ${token}`,
@@ -102,7 +106,32 @@ export const GlobalProvider = ({ children }) => {
             console.error("Error fetching assigned tasks list:", error);
             setLoading(false);
           });
-  }
+  };
+
+  const [taskList, setTaskList] = useState([]);
+
+  const getTasksList = () => {
+    setLoading(true);
+    if (!headers) {
+      const errorMessage = "Authorization token is missing.";
+      setError(errorMessage);
+      setLoading(false);
+      return;
+    }
+
+    axios.get(`http://localhost:8000/api/task-list`, {headers})
+          .then((response) => {
+            const data = response.data.data;
+            setTaskList(data); 
+            setLoading(false);
+            console.log("tasks list", data);
+          })
+          .catch((error) => {
+            console.error("Error fetching assigned tasks list:", error);
+            setLoading(false);
+    });
+    
+  };
 
   return (
     <GlobalContext.Provider
@@ -117,7 +146,9 @@ export const GlobalProvider = ({ children }) => {
         token,
         headers,
         assignedTasksList,
-        getAssignedTasksList
+        getAssignedTasksList,
+        taskList,
+        getTasksList
       }}
     >
       {children}
