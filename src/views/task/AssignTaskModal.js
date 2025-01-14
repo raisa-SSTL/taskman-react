@@ -58,7 +58,7 @@ const AssignTaskModal = ({ open, onClose, taskId }) => {
           })
           .catch((error) => {
             console.error("Error assigning task:", error);
-            toast.error("Failed to assign task. Please try again.");
+            toast.error("Failed to assign task.");
           });
     };
 

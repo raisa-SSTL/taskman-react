@@ -384,14 +384,17 @@ const TaskListTable = ({ searchQuery, filters, permission }) => {
                                         >
                                           Update
                                 </Button>
-                                <Button
-                                          // variant="outlined"
+                                {/* <Button
                                           variant={
                                             assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
                                               ? "contained"
                                               : "outlined"
                                           }
-                                          color="success"
+                                          color={
+                                            task.status === "Complete"
+                                              ? "grey"  // Grey color when the status is Complete
+                                              : "success"
+                                          }
                                           sx={{
                                             mr: 1,
                                             mb: {
@@ -399,20 +402,52 @@ const TaskListTable = ({ searchQuery, filters, permission }) => {
                                               sm: 0,
                                               lg: 0,
                                             },
+                                            ...(task.status === "Complete" && { color: "grey", borderColor: "grey" }),
                                           }}
-                                    // onClick={()=>handleAssignModalOpen(task.id)}
                                     onClick={() =>
-                                      assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
-                                        ? null // Disable the onClick if already assigned
+                                      task.status === "Complete" || assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
+                                        ? null 
                                         : handleAssignModalOpen(task.id)
                                     }
                                   >
-                                    {/* Assign */}
                                     {assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
                                       ? "Assigned"
                                       : "Assign"
                                     }
+                                </Button> */}
+                                <Button
+                                  variant={
+                                    assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
+                                      ? "contained"
+                                      : "outlined"
+                                  }
+                                  sx={{
+                                    mr: 1,
+                                    mb: {
+                                      xs: 1,
+                                      sm: 0,
+                                      lg: 0,
+                                    },
+                                    ...(task.status === "Complete" && {
+                                      // backgroundColor: "grey",  // Grey background for Complete status
+                                      borderColor: "grey",  // Grey border for Complete status
+                                      color: "white",  // White text color for visibility
+                                    }),
+                                  }}
+                                  onClick={() =>
+                                    task.status === "Complete" || assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
+                                      ? null  // Disable the onClick if the task is complete or already assigned
+                                      : handleAssignModalOpen(task.id)
+                                  }
+                                  disabled={task.status === "Complete"} // Disable the button if task status is Complete
+                                >
+                                  {assignedTasksList.some((assignedTask) => assignedTask.task_id === task.id)
+                                    ? "Assigned"
+                                    : "Assign"
+                                  }
                                 </Button>
+
+
                                 {permission.includes("delete tasks") && (
                                   <Button
                                             variant="outlined"
