@@ -46,6 +46,21 @@ const ShowEmployee = () => {
           });
     }, [id]);
 
+    if (loading) {
+      return (
+          <Box 
+              sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100vh', // Full height for centering
+              }}
+          >
+              <CircularProgress />
+          </Box>
+      );
+    }
+
     return(
         <Box>
             <Card variant="outlined">

@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import {
     Typography,
     Box,
     Button
   } from "@mui/material";
+  import { GlobalContext } from "../../context/GlobalContext";
 
   const ShowTaskPage = ({empData}) => {
+
+    const {getAssignedTasksList, assignedTasksList} = useContext(GlobalContext);
+
+    useEffect(() => {
+        getAssignedTasksList();
+    }, []);
 
     return(
         <Box>
@@ -21,6 +28,13 @@ import {
                     </Typography>
                     <Typography sx={{ mb: 1 }}>
                         <strong>Phone:</strong> {empData?.phone || "No email provided"}
+                    </Typography>
+                    <Typography sx={{ mb: 1 }}>
+                        <strong>Assigned Tasks:</strong>{" "}
+                        {assignedTasksList
+                            ?.filter((task) => task.employee.id === empData?.id)
+                            .map((task) => task.task.title)
+                            .join(", ") || "No tasks assigned"}
                     </Typography>
         </Box>
 
