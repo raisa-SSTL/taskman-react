@@ -55,13 +55,6 @@ const AuthProvider = ({ children }) => {
 
   // Handle login
   const login = (token, user) => {
-    // const expirationTime = localStorage.getItem("tokenExpiration");
-    // // Schedule automatic logout based on expiration time
-    // const timeLeft = expirationTime - Date.now();
-    // const timer = setTimeout(() => {
-    //     handleLogout();
-    // }, timeLeft);
-
     const expirationTime = Date.now() + 60 * 60 * 1000; // Example: 1 hour
 
     localStorage.setItem("authToken", token);
@@ -69,8 +62,14 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem("tokenExpiration", expirationTime);
     setAuthData({ token, user });
     startLogoutTimer(60 * 60 * 1000);
-    navigate("/dashboard");
-    // return () => clearTimeout(timer); // Cleanup timer
+    if (user.role === "employee") {
+      navigate("/e-dashboard");
+    } else if (user.role === "admin") {
+        navigate("/dashboard");
+    } else {
+        console.warn("Unknown role, defaulting to login page");
+        navigate("/");
+    }
   };
 
   // Handle logout

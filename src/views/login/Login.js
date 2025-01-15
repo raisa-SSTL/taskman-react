@@ -50,13 +50,6 @@ const Login = () => {
                 return response.json();
             })
             .then((data) => {
-                // Save the token in localStorage or cookies
-                // localStorage.setItem("authToken", data.access_token);
-                // localStorage.setItem("userData", JSON.stringify(data.user));
-
-                // Redirect to /dashboard
-                // navigate("/dashboard");
-
                 const { access_token, expires_in, user } = data;
                 // Calculate token expiration time and save it
                 const expirationTime = Date.now() + expires_in * 1000; // Convert seconds to milliseconds

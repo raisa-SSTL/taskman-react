@@ -67,7 +67,7 @@ const Menuitems = [
     title: "Dashboard",
     icon: DashboardOutlinedIcon,
     href: "/dashboard",
-    permission: "access dashboard",
+    permission: "access admin dashboard",
   },
   {
     title: "Task",
@@ -80,6 +80,13 @@ const Menuitems = [
     icon: PersonOutlinedIcon,
     href: "/employee/employee-list",
     permission: "access employees",
+  },
+
+  {
+    title: "Dashboard",
+    icon: DashboardOutlinedIcon,
+    href: "/e-dashboard",
+    permission: "access employee dashboard",
   },
   // {
   //   title: "Add Employee",

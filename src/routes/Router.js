@@ -13,6 +13,7 @@ import EmployeeList from "../views/employee/EmployeeList.js";
 import AddEmployee from "../views/employee/AddEmployee.js";
 import ShowEmployee from "../views/employee/ShowEmployee.js";
 import UpdateEmployee from "../views/employee/UpdateEmployee.js";
+import EmployeeDashboard from "../views/dashboard/EmployeeDashboard.js";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
@@ -43,7 +44,7 @@ const ThemeRoutes = [
   { path: "/login", element: <Login/> },
   { path: "/register", 
     element: (
-      <PermissionRoute permission="access dashboard">
+      <PermissionRoute permission="access admin dashboard">
         <Register/> 
       </PermissionRoute>
     ), 
@@ -72,7 +73,17 @@ const ThemeRoutes = [
 
       // D A S H B O A R D
 
-      { path: "/dashboard", element: <Dashboard /> },
+      { path: "/dashboard", element: (
+        <PermissionRoute permission="access admin dashboard">
+          <Dashboard />
+        </PermissionRoute>
+      )},
+
+      { path: "/e-dashboard", element: (
+        <PermissionRoute permission="access employee dashboard">
+          <EmployeeDashboard />
+        </PermissionRoute>
+      )},
 
       // T A S K
 
