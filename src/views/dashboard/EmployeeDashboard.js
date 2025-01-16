@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import { Grid, Box, CircularProgress } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 import EmployeeLeaderboard from "./EmployeeLeaderboard";
+import CompleteIncompletePie from "./CompleteIncompletePie";
 
 const EmployeeDashboard = () => {
 
@@ -24,6 +25,9 @@ const EmployeeDashboard = () => {
                   <Grid container spacing={0}>
                     <Grid item xs={12} lg={12}>
                         <EmployeeLeaderboard />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                        <CompleteIncompletePie />
                     </Grid>
                   </Grid>
             </Box>
