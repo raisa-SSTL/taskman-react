@@ -1,6 +1,7 @@
 import React, {useContext} from "react";
 import { Grid, Box, CircularProgress } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
+import EmployeeLeaderboard from "./EmployeeLeaderboard";
 
 const EmployeeDashboard = () => {
 
@@ -21,7 +22,9 @@ const EmployeeDashboard = () => {
     return (
             <Box>
                   <Grid container spacing={0}>
-
+                    <Grid item xs={12} lg={12}>
+                        <EmployeeLeaderboard />
+                    </Grid>
                   </Grid>
             </Box>
     );

@@ -69,19 +69,13 @@ const ThemeRoutes = [
       // { path: "/form-elements/slider", element: <ExSlider /> },
       // { path: "/form-elements/switch", element: <ExSwitch /> },
 
-      //--------------------------
+      //-------------------------- ADMIN -----------------------------//
 
       // D A S H B O A R D
 
       { path: "/dashboard", element: (
         <PermissionRoute permission="access admin dashboard">
           <Dashboard />
-        </PermissionRoute>
-      )},
-
-      { path: "/e-dashboard", element: (
-        <PermissionRoute permission="access employee dashboard">
-          <EmployeeDashboard />
         </PermissionRoute>
       )},
 
@@ -145,7 +139,17 @@ const ThemeRoutes = [
             <UpdateEmployee /> 
           </PermissionRoute>
         ), 
-      },      
+      },   
+
+      //-------------------------- EMPLOYEE -----------------------------//
+      
+      // D A S H B O A R D
+      
+      { path: "/e-dashboard", element: (
+        <PermissionRoute permission="access employee dashboard">
+          <EmployeeDashboard />
+        </PermissionRoute>
+      )},
     ],
   },
 ];
