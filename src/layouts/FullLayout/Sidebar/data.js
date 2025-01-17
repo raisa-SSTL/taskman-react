@@ -88,6 +88,13 @@ const Menuitems = [
     href: "/e-dashboard",
     permission: "access employee dashboard",
   },
+
+  {
+    title: "Assigned Tasks",
+    icon: DescriptionOutlinedIcon,
+    href: "/assigned-tasks",
+    permission: "access assigned tasks",
+  },
   // {
   //   title: "Add Employee",
   //   icon: DashboardOutlinedIcon,

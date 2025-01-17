@@ -14,6 +14,7 @@ import AddEmployee from "../views/employee/AddEmployee.js";
 import ShowEmployee from "../views/employee/ShowEmployee.js";
 import UpdateEmployee from "../views/employee/UpdateEmployee.js";
 import EmployeeDashboard from "../views/dashboard/EmployeeDashboard.js";
+import AssignedTasksList from "../views/AssignedTask/AssignedTasksList.js";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
@@ -148,6 +149,12 @@ const ThemeRoutes = [
       { path: "/e-dashboard", element: (
         <PermissionRoute permission="access employee dashboard">
           <EmployeeDashboard />
+        </PermissionRoute>
+      )},
+
+      { path: "/assigned-tasks", element: (
+        <PermissionRoute permission="access assigned tasks">
+          <AssignedTasksList />
         </PermissionRoute>
       )},
     ],
