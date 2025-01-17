@@ -3,6 +3,7 @@ import { Grid, Box, CircularProgress } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 import EmployeeLeaderboard from "./EmployeeLeaderboard";
 import CompleteIncompletePie from "./CompleteIncompletePie";
+import TwoMonthsProductivity from "./TwoMonthsProductivity";
 
 const EmployeeDashboard = () => {
 
@@ -28,6 +29,9 @@ const EmployeeDashboard = () => {
                     </Grid>
                     <Grid item xs={12} lg={6}>
                         <CompleteIncompletePie />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                        <TwoMonthsProductivity />
                     </Grid>
                   </Grid>
             </Box>
