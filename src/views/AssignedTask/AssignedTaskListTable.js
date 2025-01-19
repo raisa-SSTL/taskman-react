@@ -13,13 +13,36 @@ const AssignedTaskListTable = () => {
 
     const {getEmployeeWiseAssignedTaskList, employeeWiseAssignedTasks} = useContext(GlobalContext);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+
+    // useEffect(() => {
+    //     getEmployeeWiseAssignedTaskList();
+    // }, [])
 
     useEffect(() => {
-        getEmployeeWiseAssignedTaskList();
-    }, [])
+      const fetchData = async () => {
+        setLoading(true); // Set loading to true before fetching
+        await getEmployeeWiseAssignedTaskList();
+        setLoading(false); // Set loading to false after fetching
+      };
+  
+      fetchData();
+    }, []);
 
     return(
         <>
+           {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "200px", // Adjust based on your layout
+          }}
+        >
+          <CircularProgress color="primary" />
+        </Box>
+      ) : (
                 <Table
                   aria-label="simple table"
                   sx={{
@@ -176,7 +199,7 @@ const AssignedTaskListTable = () => {
                     ))}
                     </TableBody>
                 </Table>
-            {/* )} */}
+            )}
         </>
     );
 
