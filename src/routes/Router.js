@@ -16,6 +16,7 @@ import UpdateEmployee from "../views/employee/UpdateEmployee.js";
 import EmployeeDashboard from "../views/dashboard/EmployeeDashboard.js";
 import AssignedTasksList from "../views/AssignedTask/AssignedTasksList.js";
 import AssignedTaskShow from "../views/AssignedTask/AssignedTaskShow.js";
+import AssignedTaskUpdate from "../views/AssignedTask/AssignedTaskUpdate.js";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
@@ -162,6 +163,12 @@ const ThemeRoutes = [
       { path: "/assigned-tasks/show-assigned-task/:id", element: (
         <PermissionRoute permission="access assigned tasks">
           <AssignedTaskShow />
+        </PermissionRoute>
+      )},
+
+      { path: "/assigned-tasks/update-assigned-task/:id", element: (
+        <PermissionRoute permission="update assigned task">
+          <AssignedTaskUpdate />
         </PermissionRoute>
       )},
     ],

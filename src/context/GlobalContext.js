@@ -156,17 +156,32 @@ export const GlobalProvider = ({ children }) => {
 
   const [assignedTaskDetail, setAssignedTaskDetail] = useState(null);
 
+  // const getAssignedTaskDetails = (taskId) => {
+  //   axios
+  //       .get(`http://localhost:8000/api/assigned-task-details/${taskId}`, {headers})
+  //       .then((response) => {
+  //         setAssignedTaskDetail(response.data.assignedTask); 
+  //           setError(null); 
+  //       })
+  //       .catch((err) => {
+  //           setError(err.response?.data?.message || "An error occurred"); 
+  //       });
+  // };
   const getAssignedTaskDetails = (taskId) => {
-    axios
-        .get(`http://localhost:8000/api/assigned-task-details/${taskId}`, {headers})
-        .then((response) => {
-          setAssignedTaskDetail(response.data.assignedTask); 
-            setError(null); 
-        })
-        .catch((err) => {
-            setError(err.response?.data?.message || "An error occurred"); 
-        });
+    return axios
+      .get(`http://localhost:8000/api/assigned-task-details/${taskId}`, { headers })
+      .then((response) => {
+        setAssignedTaskDetail(response.data.assignedTask); // Update state
+        setError(null); // Clear any existing error
+        return response.data.assignedTask; // Return the data for further use
+      })
+      .catch((err) => {
+        const errorMessage = err.response?.data?.message || "An error occurred";
+        setError(errorMessage); // Update error state
+        throw err; // Rethrow the error for the caller to handle
+      });
   };
+  
 
   return (
     <GlobalContext.Provider

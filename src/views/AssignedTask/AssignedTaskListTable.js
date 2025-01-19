@@ -190,7 +190,7 @@ const AssignedTaskListTable = () => {
                                               lg: 0,
                                             },
                                           }}
-                                        //   onClick={() => navigate(`/task/update-task/${task.id}`)}
+                                          onClick={() => navigate(`/assigned-tasks/update-assigned-task/${task.task_details.id}`)}
                                         >
                                           Update
                             </Button>                            
