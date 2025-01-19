@@ -8,6 +8,20 @@ import TwoMonthsProductivity from "./TwoMonthsProductivity";
 const EmployeeDashboard = () => {
 
     const { authData } = useContext(AuthContext);
+
+    if (!authData) {
+        return (
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            style={{ minHeight: "100vh" }}
+          >
+            <CircularProgress />
+          </Grid>
+        );
+      }
+      
     if (!authData) {
         return (
         <Grid

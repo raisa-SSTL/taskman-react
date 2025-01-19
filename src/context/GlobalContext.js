@@ -130,7 +130,42 @@ export const GlobalProvider = ({ children }) => {
             console.error("Error fetching assigned tasks list:", error);
             setLoading(false);
     });
-    
+  };
+
+  const [employeeWiseAssignedTasks, setEmployeeWiseAssignedTasks] = useState([]);
+  const[employeeId, setEmployeeId] = useState();
+  const[employeeName, setEmployeeName] = useState("");
+
+  const getEmployeeWiseAssignedTaskList = () => {
+    axios
+      .get('http://localhost:8000/api/employee-wise-assigned-tasks-list', {headers})
+      .then((response) => {
+        setEmployeeId(response.data.employee_id);
+        setEmployeeName(response.data.employee_name);
+        setEmployeeWiseAssignedTasks(response.data.assigned_task_list);
+        console.log(response.data.assigned_task_list);
+      })
+      .catch((error) => {
+        console.error("Error fetching task data:", error);
+        // toast.error("Failed to load tasks!");
+      })
+      .finally(() => {
+        setLoading(false); // Stop loading indicator
+      });
+  };
+
+  const [assignedTaskDetail, setAssignedTaskDetail] = useState(null);
+
+  const getAssignedTaskDetails = (taskId) => {
+    axios
+        .get(`http://localhost:8000/api/assigned-task-details/${taskId}`, {headers})
+        .then((response) => {
+          setAssignedTaskDetail(response.data.assignedTask); 
+            setError(null); 
+        })
+        .catch((err) => {
+            setError(err.response?.data?.message || "An error occurred"); 
+        });
   };
 
   return (
@@ -148,7 +183,13 @@ export const GlobalProvider = ({ children }) => {
         assignedTasksList,
         getAssignedTasksList,
         taskList,
-        getTasksList
+        getTasksList,
+        getEmployeeWiseAssignedTaskList,
+        employeeWiseAssignedTasks,
+        employeeId,
+        employeeName,
+        getAssignedTaskDetails,
+        assignedTaskDetail
       }}
     >
       {children}

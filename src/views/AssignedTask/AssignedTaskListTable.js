@@ -11,23 +11,11 @@ import {
 
 const AssignedTaskListTable = () => {
 
-    const {headers} = useContext(GlobalContext);
-    const [assignedTasks, setAssignedTasks] = useState([]);
-
-    const getAssignedTaskList = () => {
-        axios
-          .get('http://localhost:8000/api/employee-wise-assigned-tasks-list', {headers})
-          .then((response) => {
-            setAssignedTasks(response.data.assigned_task_list);
-          })
-          .catch((error) => {
-            console.error("Error fetching task data:", error);
-            toast.error("Failed to load tasks!");
-          });
-    };
+    const {getEmployeeWiseAssignedTaskList, employeeWiseAssignedTasks} = useContext(GlobalContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        getAssignedTaskList();
+        getEmployeeWiseAssignedTaskList();
     }, [])
 
     return(
@@ -74,13 +62,38 @@ const AssignedTaskListTable = () => {
                             </TableRow>
                     </TableHead>
                     <TableBody>
-                    {assignedTasks.map((task, index) => (
+                    {employeeWiseAssignedTasks.map((task, index) => (
                         <TableRow key={task.id}>
                         <TableCell>
                             <Typography variant="body1">{index + 1}</Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body1">{task.task_details.title}</Typography>
+                            {/* <Typography variant="body1">{task.task_details.title}</Typography> */}
+                            <Box
+                                                            sx={{
+                                                              display: "flex",
+                                                              alignItems: "center",
+                                                            }}
+                                                          >
+                                                            <Box>
+                                                              <Typography
+                                                                variant="h6"
+                                                                sx={{
+                                                                  fontWeight: "600",
+                                                                }}
+                                                              >
+                                                                {task.task_details.title}
+                                                              </Typography>
+                                                              <Typography
+                                                                color="textSecondary"
+                                                                sx={{
+                                                                  fontSize: "13px",
+                                                                }}
+                                                              >
+                                                                #{task.task_details.id}
+                                                              </Typography>
+                                                            </Box>
+                                                          </Box>
                         </TableCell>
                         <TableCell>
                             {/* <Typography variant="body1">{task.task_details.priority}</Typography> */}
@@ -139,7 +152,7 @@ const AssignedTaskListTable = () => {
                                               lg: 0,
                                             },
                                           }}
-                                        //   onClick={() => navigate(`/task/show-task/${task.id}`)}
+                                          onClick={() => navigate(`/assigned-tasks/show-assigned-task/${task.task_details.id}`)}
                                         >
                                           View
                             </Button>
@@ -163,6 +176,7 @@ const AssignedTaskListTable = () => {
                     ))}
                     </TableBody>
                 </Table>
+            {/* )} */}
         </>
     );
 
