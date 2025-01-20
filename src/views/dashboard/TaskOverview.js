@@ -148,11 +148,33 @@ const TaskOverview = () => {
         });
 
         setChartData(monthlyData);
+
+        // Calculate the highest value across all data series
+        const allValues = [
+          ...monthlyData.complete,
+          ...monthlyData.inProgress,
+          ...monthlyData.pending,
+        ];
+        const highestValue = Math.max(...allValues);
+
+        // Update chart options dynamically
+        setChartOptions((prevOptions) => ({
+          ...prevOptions,
+          yaxis: {
+            ...prevOptions.yaxis,
+            max: Math.ceil(highestValue + highestValue * 0.1), // Add 10% padding
+          },
+        }));
+
       })
       .catch((error) => {
         console.error("Error fetching task data:", error);
       });
   }, [year]);
+
+  const [chartOptions, setChartOptions] = useState({
+    ...taskoverviewstyles,
+  });
 
   return (
     <Card
@@ -316,7 +338,8 @@ const TaskOverview = () => {
           }}
         >
           <Chart
-            options={taskoverviewstyles}
+            // options={taskoverviewstyles}
+            options={chartOptions}
             series={taskoverviewbars}
             type="bar"
             height="295px"
