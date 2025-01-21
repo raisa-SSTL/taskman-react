@@ -81,6 +81,45 @@ const EmployeeLeaderboard = () => {
     getEmployeeWiseCompletedTaskCount(event.target.value); // Fetch data for the new year
   };
 
+  // const getEmployeeWiseCompletedTaskCount = (selectedYear) => {
+  //   axios
+  //     .post(
+  //       "http://localhost:8000/api/employee-assignedtask-count",
+  //       { year: selectedYear || year },
+  //       { headers }
+  //     )
+  //     .then((response) => {
+  //       if (response.data && response.data.data) {
+  //         const employees = response.data.data;
+  //         const employeeNames = employees.map((employee) => employee.employee_name);
+  //         const taskCounts = employees.map((employee) => employee.completed_task_count);
+  
+  //         // Check if all task counts are 0
+  //         if (taskCounts.every((count) => count === 0)) {
+  //           toast.info("No completed tasks this year");
+  //         }
+  
+  //         setChartOptions((prevOptions) => ({
+  //           ...prevOptions,
+  //           xaxis: {
+  //             ...prevOptions.xaxis,
+  //             categories: employeeNames,
+  //           },
+  //         }));
+  
+  //         setChartSeries([
+  //           {
+  //             name: "Completed Tasks",
+  //             data: taskCounts,
+  //           },
+  //         ]);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // };
+  
   const getEmployeeWiseCompletedTaskCount = (selectedYear) => {
     axios
       .post(
@@ -119,7 +158,6 @@ const EmployeeLeaderboard = () => {
         console.error("Error fetching data:", error);
       });
   };
-  
 
   useEffect(() => {
     getEmployeeWiseCompletedTaskCount(year); // Fetch data for the current year on component mount

@@ -108,47 +108,114 @@ const TaskOverview = () => {
   });
 
   // Chart series (3 bars for each month)
+  // const taskoverviewbars = [
+  //   { name: "Complete", data: chartData.complete },
+  //   { name: "In Progress", data: chartData.inProgress },
+  //   { name: "Pending", data: chartData.pending },
+  // ];
+
   const taskoverviewbars = [
-    { name: "Complete", data: chartData.complete },
-    { name: "In Progress", data: chartData.inProgress },
-    { name: "Pending", data: chartData.pending },
+    { name: "Complete", data: chartData.complete || Array(12).fill(0) },
+    { name: "In Progress", data: chartData.inProgress || Array(12).fill(0) },
+    { name: "Pending", data: chartData.pending || Array(12).fill(0) },
   ];
 
   // Fetch task data based on the selected year 
+  // useEffect(() => {
+
+  //   const token = localStorage.getItem("authToken");
+
+  //   if (!token) {
+  //     console.error("No authorization token found");
+  //   }  
+
+  //   axios
+  //     .post("http://localhost:8000/api/year-wise-tasks", { year }, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     }) 
+  //     .then((response) => {
+  //       const tasks = response.data.tasks; // Assuming API returns tasks in `tasks` key
+
+  //       // Process tasks into chart data
+  //       const monthlyData = {
+  //         complete: Array(12).fill(0),
+  //         inProgress: Array(12).fill(0),
+  //         pending: Array(12).fill(0),
+  //       };
+
+  //       tasks.forEach((task) => {
+  //         const monthIndex = new Date(task.created_at).getMonth(); // 0-based index for months
+  //         if (task.status === "Complete") monthlyData.complete[monthIndex]++;
+  //         else if (task.status === "In Progress") monthlyData.inProgress[monthIndex]++;
+  //         else if (task.status === "Pending") monthlyData.pending[monthIndex]++;
+  //       });
+
+  //       setChartData(monthlyData);
+
+  //       // Calculate the highest value across all data series
+  //       const allValues = [
+  //         ...monthlyData.complete,
+  //         ...monthlyData.inProgress,
+  //         ...monthlyData.pending,
+  //       ];
+  //       const highestValue = Math.max(...allValues);
+
+  //       // Update chart options dynamically
+  //       setChartOptions((prevOptions) => ({
+  //         ...prevOptions,
+  //         yaxis: {
+  //           ...prevOptions.yaxis,
+  //           max: Math.ceil(highestValue + highestValue * 0.1), // Add 10% padding
+  //         },
+  //       }));
+
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching task data:", error);
+  //     });
+  // }, [year]);
+
   useEffect(() => {
-
     const token = localStorage.getItem("authToken");
-
+  
     if (!token) {
       console.error("No authorization token found");
-    }  
-
+      return;
+    }
+  
     axios
-      .post("http://localhost:8000/api/year-wise-tasks", { year }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }) 
+      .post(
+        "http://localhost:8000/api/year-wise-tasks",
+        { year },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
-        const tasks = response.data.tasks; // Assuming API returns tasks in `tasks` key
-
+        const tasks = response.data.tasks || []; // Default to an empty array if tasks is undefined
+  
         // Process tasks into chart data
         const monthlyData = {
           complete: Array(12).fill(0),
           inProgress: Array(12).fill(0),
           pending: Array(12).fill(0),
         };
-
+  
         tasks.forEach((task) => {
           const monthIndex = new Date(task.created_at).getMonth(); // 0-based index for months
           if (task.status === "Complete") monthlyData.complete[monthIndex]++;
           else if (task.status === "In Progress") monthlyData.inProgress[monthIndex]++;
           else if (task.status === "Pending") monthlyData.pending[monthIndex]++;
         });
-
+  
         setChartData(monthlyData);
-
+  
         // Calculate the highest value across all data series
         const allValues = [
           ...monthlyData.complete,
@@ -156,16 +223,15 @@ const TaskOverview = () => {
           ...monthlyData.pending,
         ];
         const highestValue = Math.max(...allValues);
-
+  
         // Update chart options dynamically
         setChartOptions((prevOptions) => ({
           ...prevOptions,
           yaxis: {
             ...prevOptions.yaxis,
-            max: Math.ceil(highestValue + highestValue * 0.1), // Add 10% padding
+            max: highestValue > 0 ? Math.ceil(highestValue + highestValue * 0.1) : 10, // Add 10% padding or set default max
           },
         }));
-
       })
       .catch((error) => {
         console.error("Error fetching task data:", error);
