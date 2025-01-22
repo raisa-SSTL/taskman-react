@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+[//]: <> (# Getting Started with Create React App)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!--- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
@@ -67,4 +67,36 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
+
+
+# Project Setup Guide
+
+Follow these steps to set up the project on your local machine:
+
+## Prerequisites
+
+Ensure you have the following installed on your machine:
+* PHP (version 8.1 or higher)
+* Composer
+* Node.js (version 16 or higher) and npm
+* MySQL or any other database server supported by Laravel
+* Git
+* A compatible web server (e.g., Apache or Nginx)
+
+## Step 1: Clone the repository
+1. Open a terminal and navigate to the directory where you want to clone the project.
+2. Run the following command:
+   ### `git clone https://github.com/raisa-SSTL/taskman-react.git`
+3. Navigate to the project directory:
+   ### `cd taskman-react`
+## Step 2: Install Dependencies
+1. Install JavaScript dependencies::
+   ## `npm install`
+2. Build frontend assets:
+   ## `npm start`
+   
+The frontend will be accessible at the specified URL (e.g., http://localhost:3000).
+
+
+
