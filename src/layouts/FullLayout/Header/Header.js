@@ -8,6 +8,7 @@ import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { AuthContext } from "../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 import {
   AppBar,
@@ -28,6 +29,8 @@ const Header = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const userId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData')).id : null;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,6 +49,10 @@ const Header = (props) => {
 
   const handleClose4 = () => {
     setAnchorEl4(null);
+  };
+
+  const handleSettingsOpen = () => {
+    navigate("/settings/" + userId);
   };
 
   const handleLogout = () => {
@@ -287,7 +294,8 @@ const Header = (props) => {
             </ListItemIcon>
             Add another account
           </MenuItem>
-          <MenuItem onClick={handleClose4}>
+          {/* <MenuItem onClick={handleClose4}> */}
+          <MenuItem onClick={handleSettingsOpen}>
             <ListItemIcon>
               <SettingsOutlinedIcon fontSize="small" />
             </ListItemIcon>

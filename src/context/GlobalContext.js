@@ -181,6 +181,30 @@ export const GlobalProvider = ({ children }) => {
         throw err; // Rethrow the error for the caller to handle
       });
   };
+
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+
+  const getUserInfo = () => {
+    axios
+      .get('http://localhost:8000/api/me', {headers})
+      .then((response) => {
+        const user = response.data.user; // Access the user object from API response
+        setUserInfo({
+          name: user.name,
+          email: user.email,
+          phone: user.phone || "N/A",
+          password: "",
+      })
+      })
+      .catch((error) => {
+        console.error("Error fetching task data:", error);
+      })
+  };
   
 
   return (
@@ -204,7 +228,9 @@ export const GlobalProvider = ({ children }) => {
         employeeId,
         employeeName,
         getAssignedTaskDetails,
-        assignedTaskDetail
+        assignedTaskDetail,
+        getUserInfo,
+        userInfo
       }}
     >
       {children}

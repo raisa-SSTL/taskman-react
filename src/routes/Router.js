@@ -17,6 +17,7 @@ import EmployeeDashboard from "../views/dashboard/EmployeeDashboard.js";
 import AssignedTasksList from "../views/AssignedTask/AssignedTasksList.js";
 import AssignedTaskShow from "../views/AssignedTask/AssignedTaskShow.js";
 import AssignedTaskUpdate from "../views/AssignedTask/AssignedTaskUpdate.js";
+import Settings from "../views/Settings/Settings.js";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
@@ -63,14 +64,14 @@ const ThemeRoutes = [
       // { path: "/", element: <Navigate to="dashboards/dashboard1" /> },
       { path: "/", element: <Navigate to="login" /> },
       // { path: "dashboards/dashboard1", exact: true, element: <Dashboard1 /> },
-      // { path: "tables/basic-table", element: <BasicTable /> },
-      // { path: "/form-layouts/form-layouts", element: <FormLayouts /> },
-      // { path: "/form-elements/autocomplete", element: <ExAutoComplete /> },
-      // { path: "/form-elements/button", element: <ExButton /> },
-      // { path: "/form-elements/checkbox", element: <ExCheckbox /> },
-      // { path: "/form-elements/radio", element: <ExRadio /> },
-      // { path: "/form-elements/slider", element: <ExSlider /> },
-      // { path: "/form-elements/switch", element: <ExSwitch /> },
+      { path: "tables/basic-table", element: <BasicTable /> },
+      { path: "/form-layouts/form-layouts", element: <FormLayouts /> },
+      { path: "/form-elements/autocomplete", element: <ExAutoComplete /> },
+      { path: "/form-elements/button", element: <ExButton /> },
+      { path: "/form-elements/checkbox", element: <ExCheckbox /> },
+      { path: "/form-elements/radio", element: <ExRadio /> },
+      { path: "/form-elements/slider", element: <ExSlider /> },
+      { path: "/form-elements/switch", element: <ExSwitch /> },
 
       //-------------------------- ADMIN -----------------------------//
 
@@ -80,6 +81,12 @@ const ThemeRoutes = [
         <PermissionRoute permission="access admin dashboard">
           <Dashboard />
         </PermissionRoute>
+      )},
+
+      { path: "/settings/:id", element: (
+        // <PermissionRoute permission="access admin dashboard">
+          <Settings/>
+        // </PermissionRoute>
       )},
 
       // T A S K
