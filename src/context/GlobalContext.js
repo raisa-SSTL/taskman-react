@@ -205,7 +205,6 @@ export const GlobalProvider = ({ children }) => {
         console.error("Error fetching task data:", error);
       })
   };
-  
 
   return (
     <GlobalContext.Provider

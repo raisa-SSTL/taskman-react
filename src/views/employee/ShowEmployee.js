@@ -98,7 +98,7 @@ const ShowEmployee = () => {
                         },
                         }}
                     >
-                        <ShowEmployeePage empData={employee}/>
+                        <ShowEmployeePage empData={employee} empId={id}/>
                     </Box>
                 </CardContent>
             </Card>
