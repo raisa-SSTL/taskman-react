@@ -136,11 +136,11 @@ const Login = () => {
                         Login
                         </Button>
                     </Box>
-                    <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                    {/* <Box sx={{ textAlign: "center", marginTop: 2 }}>
                         <Typography variant="body2">
                         Don't have an account? <a href="/register">Sign up</a>
                         </Typography>
-                    </Box>
+                    </Box> */}
                     </CardContent>
                 </Card>
             </Box>

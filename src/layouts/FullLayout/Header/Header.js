@@ -28,9 +28,10 @@ import userimg from "../../../assets/images/users/user.jpg";
 const Header = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const { logout } = useContext(AuthContext);
+  const { logout, authData } = useContext(AuthContext);
   const navigate = useNavigate();
   const userId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData')).id : null;
+  const userPermissions = authData?.user?.permissions || [];
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -53,6 +54,10 @@ const Header = (props) => {
 
   const handleSettingsOpen = () => {
     navigate("/settings/" + userId);
+  };
+
+  const handleAddAccount = () => {
+    navigate("/register");
   };
 
   const handleLogout = () => {
@@ -288,12 +293,14 @@ const Header = (props) => {
             </Box>
           </MenuItem>
           <Divider />
-          <MenuItem onClick={handleClose4}>
-            <ListItemIcon>
-              <PersonAddOutlinedIcon fontSize="small" />
-            </ListItemIcon>
-            Add another account
-          </MenuItem>
+          {userPermissions.includes("access admin dashboard") && (
+            <MenuItem onClick={handleAddAccount}>
+              <ListItemIcon>
+                <PersonAddOutlinedIcon fontSize="small" />
+              </ListItemIcon>
+              Add another account
+            </MenuItem>
+          )}
           {/* <MenuItem onClick={handleClose4}> */}
           <MenuItem onClick={handleSettingsOpen}>
             <ListItemIcon>

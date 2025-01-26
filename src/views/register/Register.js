@@ -91,7 +91,7 @@ const Register = () => {
       <Card sx={{ width: 400, padding: 3, boxShadow: 3 }}>
         <CardContent>
           <Typography variant="h5" sx={{ textAlign: "center", marginBottom: 2 }}>
-            Register
+            Register New User
           </Typography>
           <Box component="form" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <TextField
