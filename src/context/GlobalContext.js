@@ -187,6 +187,7 @@ export const GlobalProvider = ({ children }) => {
     email: "",
     phone: "",
     password: "",
+    employee_id: "",
   });
 
   const getUserInfo = () => {
@@ -199,6 +200,7 @@ export const GlobalProvider = ({ children }) => {
           email: user.email,
           phone: user.phone || "N/A",
           password: "",
+          employee_id: user.employee_id,
       })
       })
       .catch((error) => {

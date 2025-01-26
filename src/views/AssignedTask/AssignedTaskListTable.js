@@ -11,12 +11,14 @@ import {
 
 const AssignedTaskListTable = () => {
 
-    const {getEmployeeWiseAssignedTaskList, employeeWiseAssignedTasks} = useContext(GlobalContext);
+    const {getEmployeeWiseAssignedTaskList, employeeWiseAssignedTasks, getUserInfo, userInfo, headers} = useContext(GlobalContext);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const [assignedTasks, setAssignedTasks] = useState([]);
+    const [error, setError] = useState(null);
 
     // useEffect(() => {
-    //     getEmployeeWiseAssignedTaskList();
+    //   getUserInfo();
     // }, [])
 
     useEffect(() => {
@@ -28,6 +30,27 @@ const AssignedTaskListTable = () => {
   
       fetchData();
     }, []);
+
+  //   useEffect(() => {
+  //     const fetchAssignedTasks = async () => {
+  //         setLoading(true);
+  //         setError(null);
+  //         try {
+  //           const response = await axios.get(
+  //             `http://localhost:8000/api/employee-wise-assigned-task-list2/${userInfo.employee_id}`,
+  //             { headers}
+  //           );
+  //           const { assigned_task_list } = response.data;
+  //           setAssignedTasks(assigned_task_list);
+  //         } catch (err) {
+  //           setError(err.response?.data?.message || "Failed to fetch tasks");
+  //         } finally {
+  //           setLoading(false);
+  //         }
+  //       };
+    
+  //       if (userInfo.employee_id) fetchAssignedTasks();
+  // }, [userInfo.employee_id]);
 
     return(
         <>
