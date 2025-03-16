@@ -24,8 +24,9 @@ Ensure you have the following installed on your machine:
 2. Build frontend assets:
    ## `npm start`
    
-The frontend will be accessible at the specified URL (e.g., http://localhost:3000).
-The application supports two user roles: Admins and Employees. Set up the backend (taskman-api) to seed the default users.
+The frontend will be accessible at the specified URL (e.g., http://localhost:3000).  
+The application supports two user roles: Admins and Employees.  
+Set up the backend (taskman-api) to seed the default users.
 
 ## Key Features
 ✅ Dynamic Dashboards for both Admins and Employees  
