@@ -28,11 +28,11 @@ The frontend will be accessible at the specified URL (e.g., http://localhost:300
 The application supports two user roles: Admins and Employees. Set up the backend (taskman-api) to seed the default users.
 
 ## Key Features
-✅ Dynamic Dashboards for both Admins and Employees
-✅ Admin Dashboard: Task overviews (pending, upcoming, ongoing tasks), task analytics (assigned, unassigned), and task completion tracking (month and year wise), employee list for CRUD
-✅ Employee Dashboard: Assigned task progress analytics, all-employee leaderboard, and personal productivity comparison over two months
-✅ Data Visualization: Interactive bar charts, pie charts, and tables for analytical insights
-✅ Task Management: Admins create and assign tasks, and employees update assigned tasks
+✅ Dynamic Dashboards for both Admins and Employees  
+✅ Admin Dashboard: Task overviews (pending, upcoming, ongoing tasks), task analytics (assigned, unassigned), and task completion tracking (month and year wise), employee list for CRUD  
+✅ Employee Dashboard: Assigned task progress analytics, all-employee leaderboard, and personal productivity comparison over two months  
+✅ Data Visualization: Interactive bar charts, pie charts, and tables for analytical insights  
+✅ Task Management: Admins create and assign tasks, and employees update assigned tasks  
 ✅ Admins can filter tasks according to priority and status
 
 
