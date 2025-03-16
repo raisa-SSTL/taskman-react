@@ -118,7 +118,7 @@ const Header = (props) => {
         >
           <MenuOutlinedIcon width="20" height="20" />
         </IconButton>
-        <IconButton
+        {/* <IconButton
           aria-label="menu"
           color="inherit"
           aria-controls="dd-menu"
@@ -189,7 +189,7 @@ const Header = (props) => {
               New Component
             </Box>
           </MenuItem>
-        </Menu>
+        </Menu> */}
         <Box flexGrow={1} />
 
         {/* ------------------------------------------- */}

@@ -114,7 +114,7 @@ const Sidebar = (props) => {
           ))}
         </List>
       </Box>
-      <Buynow />
+      {/* <Buynow /> */}
     </Box>
   );
   if (lgUp) {
